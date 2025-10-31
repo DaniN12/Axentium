@@ -20,6 +20,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.php?s=test-admin">Test Admin</a>
+                    </li>
                     <?php
                     if (isset($_SESSION['user'])) {
                     ?>
