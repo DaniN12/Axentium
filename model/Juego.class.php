@@ -7,8 +7,9 @@ class Juego
     private $fecha_inicio;
     private $fecha_fin;
     private $familia;
+    private $preguntas = [];
 
-    public function __construct($id, $activo, $fecha_inicio, $fecha_fin, Familia $familia)
+    public function __construct($id, $activo, Datetime $fecha_inicio, Datetime $fecha_fin, Familia $familia)
     {
         $this->id = $id;
         $this->activo = $activo;
@@ -17,7 +18,7 @@ class Juego
         $this->familia = $familia;
     }
 
-    //getters
+    // Getters
     public function isActivo()
     {
         return $this->activo;
@@ -37,5 +38,21 @@ class Juego
     public function getId()
     {
         return $this->id;
+    }
+    public function getFamilia()
+    {
+        return $this->familia;
+    }
+    public function setPreguntas(array $preguntas)
+    {
+        $this->preguntas = $preguntas;
+    }
+    public function getPreguntas()
+    {
+        return $this->preguntas;
+    }
+    public function addPregunta(Pregunta $pregunta)
+    {
+        $this->preguntas[] = $pregunta;
     }
 }
