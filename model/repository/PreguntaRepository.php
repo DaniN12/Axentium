@@ -33,6 +33,9 @@ class PreguntaRepository
                 $familiaId = $fila['familiaId'];
                 $categoriaId = $fila['categoriaId'];
 
+                $familia = null;
+                $categoria = null;
+
                 if ($familiaId != null) {
                     $familia = new Familia($fila['familiaId'], "");
                 } else if ($categoriaId != null) {
