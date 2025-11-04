@@ -35,6 +35,12 @@
                         <li class="nav-item">
                             <a class="nav-link" href="index.php?s=login">Login</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.php?s=glosario_admin">GlosarioAdmin</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.php?s=glosario_user">GlosarioUser</a>
+                        </li>
                     <?php
                     }
                     ?>
