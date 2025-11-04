@@ -5,12 +5,14 @@ class Centro
     private $id;
     private $nombre;
     private $localidad;
+    private $ciclos;
 
-    public function __construct($id, $nombre, $localidad)
+    public function __construct($id, $nombre, $localidad, array $ciclos)
     {
         $this->id = $id;
         $this->nombre = $nombre;
         $this->localidad = $localidad;
+        $this->ciclos = $ciclos;
     }
 
     //getters
@@ -29,5 +31,22 @@ class Centro
     public function getId()
     {
         return $this->id;
+    }
+    public function getCiclos()
+    {
+        return $this->ciclos;
+    }
+    public function addCiclo(Ciclo $ciclo)
+    {
+        $this->ciclos[] = $ciclo;
+    }
+    public function removeCiclo(Ciclo $ciclo)
+    {
+        foreach ($this->ciclos as $index => $cicloActual) {
+            if ($cicloActual->getId() === $ciclo->getId()) {
+                unset($this->ciclos[$index]);
+                $this->ciclos = array_values($this->ciclos);
+            }
+        }
     }
 }
