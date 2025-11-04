@@ -1,3 +1,4 @@
+
 <?php
 require_once(BASE_PATH . "/model/AccesoBD.class.php");
 require_once(BASE_PATH . "/model/Familia.class.php");
@@ -93,3 +94,4 @@ class CentroRepository
         return null;
     }
 }
+?>

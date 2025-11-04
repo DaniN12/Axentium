@@ -1,3 +1,4 @@
+
 <?php
 require_once(__DIR__.'/../config.php');
 require_once(__DIR__."/../model/repository/UsuarioRepository.php");
@@ -25,5 +26,6 @@ if($pass != $pass2){
     //Poner mensaje flash: no se ha seleccionado centro o ciclo
     header('Location:../index.php?s=registro');
 }
+
 
 ?>

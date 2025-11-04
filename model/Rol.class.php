@@ -1,3 +1,4 @@
+
 <?php
 
 class Rol
@@ -21,3 +22,4 @@ class Rol
         return $this->rol;
     }
 }
+?>

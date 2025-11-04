@@ -1,3 +1,4 @@
+
 <?php
 require_once __DIR__ . "/../model/repository/CentroRepository.php";
 require_once __DIR__ . "/../model/repository/CicloRepository.php";
@@ -61,4 +62,5 @@ $ciclos = $cicloRepository->getCiclos();
             <button type="submit" class="btn btn-primary col-12">Registrar</button>
         </form>
     </div>
+
 </div>

@@ -1,3 +1,4 @@
+
 <?php
 
 class Centro
@@ -50,3 +51,4 @@ class Centro
         }
     }
 }
+?>

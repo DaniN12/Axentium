@@ -1,3 +1,4 @@
+
 <?php
 
 class AccesoBD
@@ -5,7 +6,7 @@ class AccesoBD
     const RUTA = "localhost";
     const BD = "lhizki";
     const USER = "root";
-    const PASS = "123";
+    const PASS = "abcd*1234";
 
     public $conexion;
 
@@ -40,3 +41,4 @@ class AccesoBD
         }
     }
 }
+?>
