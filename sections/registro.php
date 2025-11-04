@@ -1,3 +1,4 @@
+
 <?php
 require_once __DIR__ . "/../model/repository/CentroRepository.php";
 require_once __DIR__ . "/../model/repository/CicloRepository.php";
@@ -27,11 +28,9 @@ $ciclos = $cicloRepository->getCiclos();
                 <select name="centro" id="centro" class="form-control">
                     <option value="" disabled selected> -- Selecciona un centro -- </option>
                     <?php
-                    for ($j = 0; $j <= count($centros) - 1; $j++) {
-                        $id = $centros[$j]->getId();
-                        $nombre = $centros[$j]->getNombre();
+                    foreach($centros as $centro){
                     ?>
-                        <option value="<?= $id ?>"><?= $nombre ?></option>
+                        <option value="<?= $centro->getId() ?>"><?= $centro->getNombre() ?></option>
                     <?php
                     }
                     ?>
@@ -63,4 +62,5 @@ $ciclos = $cicloRepository->getCiclos();
             <button type="submit" class="btn btn-primary col-12">Registrar</button>
         </form>
     </div>
+
 </div>

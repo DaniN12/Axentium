@@ -1,9 +1,10 @@
+
 <?php
 require_once(__DIR__."/../AccesoBD.class.php");
 
 class UsuarioRepository
 {
-    // const ROL_USUARIO = 2;
+    const ROL_USUARIO = 2;
 
     function registrarUsuario($username, $email, $pass, $centro, $ciclo)
     {
@@ -18,7 +19,7 @@ class UsuarioRepository
         }
 
         $sqlInsert = "INSERT INTO usuarios(username, email, password, rolId, centroId, cicloId)
-                    VALUES ('$username','$email','$pass', '2', '$centro', '$ciclo')";
+                    VALUES ('$username','$email','$pass', '".self::ROL_USUARIO."', '$centro', '$ciclo')";
         $bd->lanzarSQL($sqlInsert);
 
         return true;
@@ -93,3 +94,4 @@ class UsuarioRepository
         return null;
     }
 }
+?>

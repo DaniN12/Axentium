@@ -1,3 +1,4 @@
+
 <?php
 
 class AccesoBD
@@ -40,3 +41,4 @@ class AccesoBD
         }
     }
 }
+?>
