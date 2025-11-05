@@ -89,4 +89,17 @@ class PreguntaRepository
         }
         return null;
     }
+
+    function marcarPreguntasUsadasPorJuego($juegoId)
+    {
+        $bd = new AccesoBD();
+        $sql = "UPDATE preguntas 
+                SET usada = 1 
+                WHERE id IN (
+                    SELECT preguntaId 
+                    FROM juegos_preguntas 
+                    WHERE juegoId = $juegoId
+                )";
+        $bd->lanzarSQL($sql);
+    }
 }

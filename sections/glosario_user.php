@@ -4,14 +4,6 @@ $repo = new GlosarioRepository();
 $palabras = $repo->obtenerTodos();
 ?>
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Glosario Euskera / Castellano</title>
-    <link rel="stylesheet" href="../css/estilos.css">
-</head>
-<body>
     <h1>Glosario Euskera / Castellano</h1>
 
     <table border="1" width="70%">
@@ -27,5 +19,4 @@ $palabras = $repo->obtenerTodos();
             </tr>
         <?php endforeach; ?>
     </table>
-</body>
-</html>
+

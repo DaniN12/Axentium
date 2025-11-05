@@ -1,6 +1,8 @@
 
 <?php
-require_once(__DIR__."/../AccesoBD.class.php");
+require_once(BASE_PATH."/model/AccesoBD.class.php");
+require_once(BASE_PATH."/model/Rol.class.php");
+require_once(BASE_PATH."/model/Usuario.class.php");
 
 class UsuarioRepository
 {
@@ -28,10 +30,10 @@ class UsuarioRepository
     function getUser($username, $pass)
     {
         $bd = new AccesoBD();
-        $sql = "SELECT username, email, fecha_verificacion, rolId, roles.rol
-            FROM usuarios 
-            INNER JOIN roles ON usuarios.rolId=roles.id 
-            WHERE username='$username' AND pass='$pass' 
+        $sql = "SELECT u.id, u.username, u.email, u.rolId, r.nombre AS rol
+            FROM usuarios u
+            INNER JOIN roles r ON u.rolId=r.id 
+            WHERE username='$username' AND password='$pass' 
             LIMIT 1;";
         $result = mysqli_query($bd->conexion, $sql);
 
@@ -39,13 +41,10 @@ class UsuarioRepository
 
             extract($fila);
 
-            if ($fecha_verificacion == null) {
-                return null;
-            } else {
-                $rol = new Rol($rol, $rolId);
-                $user = new Usuario($id, $username, $email, $rol);
-                return $user;
-            }
+            $rol = new Rol($rol, $rolId);
+            $user = new Usuario($id, $username, $email, $rol);
+            return $user;
+            
         }
         return null;
     }

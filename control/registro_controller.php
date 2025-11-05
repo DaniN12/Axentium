@@ -1,7 +1,7 @@
 
 <?php
 require_once(__DIR__.'/../config.php');
-require_once(__DIR__."/../model/repository/UsuarioRepository.php");
+require_once(BASE_PATH."/model/repository/UsuarioRepository.php");
 
 $username=$_POST['username'];
 $email=$_POST['email'];
