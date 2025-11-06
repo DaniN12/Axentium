@@ -115,17 +115,13 @@ require_once __DIR__ . "/config.php";
             <i class="fas fa-home"></i>
             <span class="d-block">Inicio</span>
         </a>
-        <a href="index.php?s=juego">
-            <i class="fas fa-play"></i>
-            <span class="d-block">Jugar</span>
+        <a href="index.php">
+            <i class="fas fa-crown"></i>
+            <span class="d-block">Ranking</span>
         </a>
         <a href="index.php?s=glosario_user">
             <i class="fas fa-book"></i>
             <span class="d-block">Glosario</span>
-        </a>
-        <a href="index.php">
-            <i class="fas fa-crown"></i>
-            <span class="d-block">Ranking</span>
         </a>
         <a href="index.php">
             <i class="fas fa-bell"></i>

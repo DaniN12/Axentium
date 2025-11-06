@@ -13,7 +13,7 @@ class Pregunta
     private $familia;
     private $categoria;
 
-    public function __construct($id, $pregunta, $opcion1, $opcion2, $opcion3, $correcta, $usada, $img, ?Familia $familia, ?Categoria $categoria)
+    public function __construct($id, $pregunta, $opcion1, $opcion2, $opcion3, $correcta, $usada = null, $img, ?Familia $familia, ?Categoria $categoria)
     {
         $this->id = $id;
         $this->pregunta = $pregunta;

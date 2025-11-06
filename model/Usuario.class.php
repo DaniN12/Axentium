@@ -7,13 +7,17 @@ class Usuario
     private $username;
     private $mail;
     private $rol;
+    private $ciclo;
+    private $centro; 
 
-    public function __construct($id, $username, $mail, Rol $rol)
+    public function __construct($id, $username, $mail, Rol $rol, Ciclo $ciclo, Centro $centro)
     {
         $this->id = $id;
         $this->username = $username;
         $this->mail = $mail;
         $this->rol = $rol;
+        $this->ciclo = $ciclo;
+        $this->centro = $centro;
     }
 
     //getters
@@ -32,6 +36,14 @@ class Usuario
     public function getId()
     {
         return $this->id;
+    }
+    public function getCiclo()
+    {
+        return $this->ciclo;
+    }
+    public function getCentro()
+    {
+        return $this->centro;
     }
 }
 ?>

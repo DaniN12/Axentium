@@ -102,4 +102,5 @@ class PreguntaRepository
                 )";
         $bd->lanzarSQL($sql);
     }
+
 }
