@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 ?>
 <div class="container-fluid px-4">
     <h1 class="mt-4" style="color: white;">Panel</h1>

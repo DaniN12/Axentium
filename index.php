@@ -1,5 +1,11 @@
 <?php
 require_once __DIR__ . "/config.php";
+require_once BASE_PATH . '/model/Rol.class.php';
+require_once BASE_PATH . '/model/Ciclo.class.php';
+require_once BASE_PATH . '/model/Familia.class.php';
+require_once BASE_PATH . '/model/Usuario.class.php';
+require_once BASE_PATH . '/model/Juego.class.php';
+session_start();
 ?>
 
 <!DOCTYPE html>
