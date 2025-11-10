@@ -2,8 +2,12 @@
 session_start();
 require_once(__DIR__ . '/../config.php');
 require_once BASE_PATH . '/model/repository/UsuarioRepository.php';
-require_once BASE_PATH . '/model/repository/JuegoRepository.php';
-require_once BASE_PATH . '/model/AccesoBD.class.php';
+require_once BASE_PATH . '/model/Usuario.class.php';
+require_once BASE_PATH . '/model/Ciclo.class.php';
+require_once BASE_PATH . '/model/Familia.class.php';
+require_once BASE_PATH . '/model/Rol.class.php';
+// require_once BASE_PATH . '/model/repository/JuegoRepository.php';
+// require_once BASE_PATH . '/model/AccesoBD.class.php';
 
 $username = $_POST['username'];
 $password = md5(trim($_POST['password']));
@@ -26,7 +30,7 @@ if ($user) {
     } else if($rolLogueado == 'usuario') {
         $familiaId = $user->getCiclo()->getFamilia()->getId();
         $_SESSION['familiaId']=$familiaId;
-        header('Location: ' . BASE_URL . 'control/juego_controller.php');
+        header('Location: ' . BASE_URL . 'control/home_controller.php');
     }
 
 } else {

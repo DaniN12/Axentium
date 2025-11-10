@@ -2,7 +2,7 @@
 
 ?>
 <div class="container-fluid px-4">
-    <h1 class="mt-4" style="color: white;">Panel</h1>
+    <h1 class="mt-4">Panel</h1>
 
     <div class="row">
         <div class="col-xl-3 col-md-6">

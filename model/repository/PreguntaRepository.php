@@ -103,4 +103,12 @@ class PreguntaRepository
         $bd->lanzarSQL($sql);
     }
 
+    function guardarRespuestaUsuario($usuarioId, $juegoId, $preguntaId, $respuesta)
+    {
+        $bd = new AccesoBD();
+        $sql = "INSERT INTO usuario_preguntas (usuarioId, juegoId, preguntaId, respuesta)
+                VALUES ('$usuarioId', '$juegoId', '$preguntaId', '$respuesta')";
+        $bd->lanzarSQL($sql);
+    }
+
 }

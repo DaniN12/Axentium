@@ -1,7 +1,4 @@
 <?php
-
-use Dom\Mysql;
-
 require_once(BASE_PATH . "/model/AccesoBD.class.php");
 require_once(BASE_PATH . "/model/Familia.class.php");
 require_once(BASE_PATH . "/model/Categoria.class.php");
@@ -138,5 +135,20 @@ class JuegoRepository
             }
         }
         return $preguntas;
+    }
+
+    function isJuegoJugado($juegoId, $usuarioId)
+    {
+        $bd = new AccesoBD();
+        $sql = "SELECT juegoId FROM partidas 
+        WHERE juegoId = '$juegoId' 
+          AND usuarioId = '$usuarioId'
+          ";
+        $result = mysqli_query($bd->conexion, $sql);
+        if ($result && mysqli_num_rows($result) > 0) {
+            return true;  
+        } else {
+            return false; 
+        }
     }
 }
