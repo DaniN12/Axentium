@@ -88,6 +88,117 @@ class JuegoRepository
         return null;
     }
 
+    function getAllJuegos()
+    {
+        $bd = new AccesoBD();
+        $sql = "SELECT 
+                j.id, j.activo, j.fecha_inicio, j.fecha_fin, 
+                f.id AS familiaId, f.nombre AS familiaNombre
+            FROM juegos j
+            INNER JOIN familias f ON j.familiaId = f.id
+            WHERE NOW() BETWEEN j.fecha_inicio AND j.fecha_fin;";
+
+        $result = mysqli_query($bd->conexion, $sql);
+        $juegos = [];
+
+        if ($result && mysqli_num_rows($result) > 0) {
+            while ($fila = mysqli_fetch_assoc($result)) {
+                $fechaInicio = new DateTime($fila['fecha_inicio']);
+                $fechaFin = new DateTime($fila['fecha_fin']);
+                $familia = new Familia($fila['familiaId'], $fila['familiaNombre']);
+
+                $juego = new Juego(
+                    $fila['id'],
+                    $fila['activo'],
+                    $fechaInicio,
+                    $fechaFin,
+                    $familia
+                );
+
+                $preguntas = $this->getPreguntasByJuego($juego->getId());
+                $juego->setPreguntas($preguntas);
+
+                $juegos[] = $juego;
+            }
+        }
+
+        return $juegos;
+    }
+
+    function getProximosJuegos()
+    {
+        $bd = new AccesoBD();
+        $sql = "SELECT 
+                j.id, j.activo, j.fecha_inicio, j.fecha_fin, 
+                f.id AS familiaId, f.nombre AS familiaNombre
+            FROM juegos j
+            INNER JOIN familias f ON j.familiaId = f.id
+            WHERE NOW() < j.fecha_inicio;";
+
+        $result = mysqli_query($bd->conexion, $sql);
+        $juegos = [];
+
+        if ($result && mysqli_num_rows($result) > 0) {
+            while ($fila = mysqli_fetch_assoc($result)) {
+                $fechaInicio = new DateTime($fila['fecha_inicio']);
+                $fechaFin = new DateTime($fila['fecha_fin']);
+                $familia = new Familia($fila['familiaId'], $fila['familiaNombre']);
+
+                $juego = new Juego(
+                    $fila['id'],
+                    $fila['activo'],
+                    $fechaInicio,
+                    $fechaFin,
+                    $familia
+                );
+
+                $preguntas = $this->getPreguntasByJuego($juego->getId());
+                $juego->setPreguntas($preguntas);
+
+                $juegos[] = $juego;
+            }
+        }
+
+        return $juegos;
+    }
+
+    function getJuegosPasados()
+    {
+        $bd = new AccesoBD();
+        $sql = "SELECT 
+                j.id, j.activo, j.fecha_inicio, j.fecha_fin, 
+                f.id AS familiaId, f.nombre AS familiaNombre
+            FROM juegos j
+            INNER JOIN familias f ON j.familiaId = f.id
+            WHERE NOW() > j.fecha_fin;";
+
+        $result = mysqli_query($bd->conexion, $sql);
+        $juegos = [];
+
+        if ($result && mysqli_num_rows($result) > 0) {
+            while ($fila = mysqli_fetch_assoc($result)) {
+                $fechaInicio = new DateTime($fila['fecha_inicio']);
+                $fechaFin = new DateTime($fila['fecha_fin']);
+                $familia = new Familia($fila['familiaId'], $fila['familiaNombre']);
+
+                $juego = new Juego(
+                    $fila['id'],
+                    $fila['activo'],
+                    $fechaInicio,
+                    $fechaFin,
+                    $familia
+                );
+
+                $preguntas = $this->getPreguntasByJuego($juego->getId());
+                $juego->setPreguntas($preguntas);
+
+                $juegos[] = $juego;
+            }
+        }
+
+        return $juegos;
+    }
+
     function getPreguntasByJuego($juegoId)
     {
         $bd = new AccesoBD();
@@ -126,10 +237,10 @@ class JuegoRepository
                     $fila['opcion2'],
                     $fila['opcion3'],
                     $fila['correcta'],
+                    $familia,
+                    $categoria,
                     $fila['usada'],
                     $fila['img'],
-                    $familia,
-                    $categoria
                 );
                 $preguntas[] = $pregunta;
             }
@@ -146,9 +257,9 @@ class JuegoRepository
           ";
         $result = mysqli_query($bd->conexion, $sql);
         if ($result && mysqli_num_rows($result) > 0) {
-            return true;  
+            return true;
         } else {
-            return false; 
+            return false;
         }
     }
 }

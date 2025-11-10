@@ -6,6 +6,9 @@
 // require_once BASE_PATH . '/model/Usuario.class.php';
 // require_once BASE_PATH . '/model/Juego.class.php';
 $msg = $_GET['msg'] ?? '';
+if(!isset($_SESSION['usuario'])){
+    header('Location: ' . BASE_URL . 'index.php?s=login');
+}
 ?>
 
 <div class="container py-3">
@@ -36,20 +39,7 @@ $msg = $_GET['msg'] ?? '';
                 <div>¡Ya has jugado a este juego!</div>
               </div>';
         } ?>
-        <div class="card border-success mb-3">
-                <div class="card-header bg-success text-white">
-                    <i class="fa-solid fa-book me-1"></i> Sigue aprendiendo
-                </div>
-                <div class="card-body">
-                    <div class="row g-2">
-                        <div class="col-12">
-                            <p>Visita la sección de <strong>glosario</strong> para aprender más términos en euskera que te serán útiles en tu ciclo formativo.</p>
-                        </div>
-                    </div>
-                    <div class="d-grid mt-3">
-                    </div>
-                </div>
-            </div>
+        
         <?php if (isset($_SESSION['juegoActivo']) && $msg == '') {
 
             $juego = $_SESSION['juegoActivo'];
@@ -76,6 +66,21 @@ $msg = $_GET['msg'] ?? '';
                 </div>
             </div>
         <?php
-        }
+        }?> 
+        <div class="card border-success mb-3">
+                <div class="card-header bg-secondary text-white">
+                    <i class="fa-solid fa-book me-1"></i> Sigue aprendiendo
+                </div>
+                <div class="card-body">
+                    <div class="row g-2">
+                        <div class="col-12">
+                            <p>Visita la sección de <strong>glosario</strong> para aprender más términos en euskera que te serán útiles en tu ciclo formativo.</p>
+                        </div>
+                    </div>
+                    <div class="d-grid mt-3">
+                    </div>
+                </div>
+            </div>
+        <?php
     } ?>
 </div>

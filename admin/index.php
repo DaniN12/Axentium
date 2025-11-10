@@ -1,5 +1,12 @@
 <?php
 require_once __DIR__ . "/../config.php";
+require_once BASE_PATH . "/model/repository/CentroRepository.php";
+require_once BASE_PATH . "/model/repository/CicloRepository.php";
+require_once BASE_PATH . "/model/repository/FamiliaRepository.php";
+require_once BASE_PATH . "/model/repository/CategoriaRepository.php";
+require_once BASE_PATH . "/model/repository/JuegoRepository.php";
+require_once BASE_PATH . "/model/repository/UsuarioRepository.php";
+require_once BASE_PATH . "/model/repository/PreguntaRepository.php";
 session_start();
 
 if(!isset($_SESSION['admin'])){
@@ -18,6 +25,7 @@ if(!isset($_SESSION['admin'])){
     <link rel="stylesheet" href="../css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link href="../css/estilos.css" rel="stylesheet" />
 </head>
 
@@ -62,6 +70,7 @@ if(!isset($_SESSION['admin'])){
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
     <script src="../assets/demo/chart-area-demo.js"></script>
     <script src="../assets/demo/chart-bar-demo.js"></script>
+    <script src="../js/my_scripts.js"></script>
 </body>
 
 </html>

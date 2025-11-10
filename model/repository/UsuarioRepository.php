@@ -104,5 +104,36 @@ class UsuarioRepository
         }
         return null;
     }
+    function getAllUsuarios()
+    {
+        $bd = new AccesoBD();
+        $sql = "SELECT u.id, u.username, u.email, u.rolId, r.nombre AS rol,
+            u.cicloId, ci.nombre AS cicloNombre, ci.familiaId, 
+            u.centroId, c.nombre AS centroNombre
+            FROM usuarios u
+            INNER JOIN roles r ON u.rolId=r.id 
+            INNER JOIN centros c ON u.centroId=c.id
+            INNER JOIN ciclos ci ON u.cicloId=ci.id
+            INNER JOIN familias f ON f.id=ci.familiaId;";
+
+        $result = mysqli_query($bd->conexion, $sql);
+        $usuarios = [];
+
+        if ($result) {
+            while ($fila = mysqli_fetch_assoc($result)) {
+                extract($fila);
+
+                $rol = new Rol($rol, $rolId);
+                $centro = new Centro($centroId, $centroNombre);
+                $familia = new Familia($familiaId);
+                $ciclo = new Ciclo($cicloId, $cicloNombre, $familia);
+
+                $user = new Usuario($id, $username, $email, $rol, $ciclo, $centro);
+                $usuarios[] = $user;
+            }
+        }
+
+        return $usuarios;
+    }
 }
 ?>
