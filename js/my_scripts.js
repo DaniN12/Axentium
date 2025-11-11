@@ -24,3 +24,31 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+document.addEventListener("DOMContentLoaded", function() {
+  const btnTop = document.getElementById("btnTop");
+  const alphabetNav = document.querySelector(".alphabet-nav");
+
+  window.addEventListener("scroll", () => {
+    // Verifica la posición de la barra alfabética
+    if (alphabetNav) {
+      const rect = alphabetNav.getBoundingClientRect();
+      if (rect.bottom < 0) {
+        btnTop.classList.add("show");
+      } else {
+        btnTop.classList.remove("show");
+      }
+    } else {
+      // Si no hay barra, simplemente muestra el botón tras cierto scroll
+      if (window.scrollY > 200) {
+        btnTop.classList.add("show");
+      } else {
+        btnTop.classList.remove("show");
+      }
+    }
+  });
+
+  // Acción del botón: volver arriba
+  btnTop.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});

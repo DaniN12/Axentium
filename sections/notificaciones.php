@@ -1,7 +1,7 @@
 <?php
 ?>
 <div class="container py-3">
-    <h1 class="h4 mb-3"><i class="fa-solid fa-bell me-2"></i>Avisos</h1>
+    <h1 class="h4 mb-3"><i class="fa-solid fa-bell me-2"></i>Notificaciones</h1>
     <div class="list-group">
         <div class="list-group-item d-flex align-items-center">
             <i class="fa-solid fa-circle-info text-primary me-2"></i>

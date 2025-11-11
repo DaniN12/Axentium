@@ -1,5 +1,7 @@
 <?php
-
+if(isset($_SESSION['usuario'])){
+   header('Location: ' . BASE_URL . 'index.php?s=home');
+}
 ?>
 
 <div class="container py-5">

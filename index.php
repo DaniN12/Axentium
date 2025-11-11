@@ -85,9 +85,9 @@ session_start();
                 <i class="fas fa-book"></i>
                 <span class="d-block">Glosario</span>
             </a>
-            <a href="index.php?s=avisos">
+            <a href="index.php?s=notificaciones">
                 <i class="fas fa-bell"></i>
-                <span class="d-block">Avisos</span>
+                <span class="d-block">Notificaciones</span>
             </a>
         </nav>
     <?php } ?>
