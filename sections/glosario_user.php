@@ -20,7 +20,9 @@ $palabras = $repo->obtenerTodos();
                 <nav class="alphabet-nav d-flex flex-column align-items-center">
                     <?php
                     $letters = range('A', 'Z');
-                    foreach ($letters as $L): ?>
+                    foreach ($letters as $L):
+                        if ($L === 'C') continue; // salta la C
+                    ?>
                         <a href="#sec-<?= $L ?>"><?= $L ?></a>
                     <?php endforeach; ?>
                 </nav>
