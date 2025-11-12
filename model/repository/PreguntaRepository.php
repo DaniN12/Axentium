@@ -15,7 +15,7 @@ class PreguntaRepository
                 FROM preguntas
                 WHERE familiaId is null AND usada = 0
                 ORDER BY RAND()
-                LIMIT 1;
+                LIMIT 3;
                 ";
         $result = mysqli_query($bd->conexion, $sql);
 
@@ -56,7 +56,7 @@ class PreguntaRepository
                 FROM preguntas
                 WHERE familiaId = '$familiaId' AND usada = 0
                 ORDER BY RAND()
-                LIMIT 1;
+                LIMIT 3;
                 ";
         $result = mysqli_query($bd->conexion, $sql);
 

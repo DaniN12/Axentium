@@ -9,7 +9,7 @@ $preguntasJS = [];
 foreach ($preguntas as $p) {
     $preguntasJS[] = [
         'pregunta' => $p->getPregunta(),
-        'imagen' => $p->getImg() ?: null,
+        'imagen' => $p->getImg() ? BASE_URL . 'assets/img/' . $p->getImg() : null,
         'respuestas' => [
             $p->getOpcion1(),
             $p->getOpcion2(),
@@ -58,8 +58,8 @@ foreach ($preguntas as $p) {
         <div class="card-body text-center">
             <h5 class="fw-bold mb-3" id="texto-pregunta">Cargando pregunta...</h5>
 
-            <div id="imagen-container" class="ratio ratio-16x9 bg-light d-flex align-items-center justify-content-center rounded mb-3">
-                <img id="imagen-pregunta" class="img-fluid rounded" style="max-height:200px; display:none;" alt="Imagen pregunta">
+            <div id="imagen-container" class="bg-light d-flex align-items-center justify-content-center rounded mb-3">
+                <img id="imagen-pregunta" class="img-fluid rounded" alt="Imagen pregunta">
             </div>
 
             <!-- Respuestas fijas en HTML -->

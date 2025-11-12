@@ -77,7 +77,7 @@ session_start();
                 <i class="fas fa-home"></i>
                 <span class="d-block">Inicio</span>
             </a>
-            <a href="index.php?s=ranking">
+            <a href="<?= BASE_URL ?>control/ranking_controller.php">
                 <i class="fas fa-crown"></i>
                 <span class="d-block">Ranking</span>
             </a>

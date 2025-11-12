@@ -16,5 +16,23 @@ class PartidaRepository
         $sql = "INSERT INTO partidas (juegoId, usuarioId, puntuacion, fecha) VALUES ('$juegoId', '$usuarioId', '$puntuacion', '$fecha');";
         mysqli_query($bd->conexion, $sql);
     }
+    function getAllPuntuaciones()
+    {
+        $bd = new AccesoBD();
+        $sql = "SELECT 
+            u.id AS usuarioId, 
+            u.username AS usuario, 
+            MAX(p.puntuacion) AS puntuacion
+        FROM partidas p
+        INNER JOIN usuarios u ON p.usuarioId = u.id
+        GROUP BY u.id, u.username
+        ORDER BY puntuacion DESC;";
+        $resultado = mysqli_query($bd->conexion, $sql);
+
+        $ranking = [];
+        while ($fila = mysqli_fetch_assoc($resultado)) {
+            $ranking[] = $fila;
+        }
+        return $ranking;
+    }
 }
-?>

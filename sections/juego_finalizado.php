@@ -11,6 +11,6 @@ $juego = $_SESSION['juegoActivo'];
         <h2>Zorionak! </h2>
         <h3>Has terminado la partida</h3>
         <p>En el juego de esta semana has conseguido:</p>
-        <h3 class="text-success">Puntuación: <?= $_SESSION['partida']->getPuntuacion() ?> puntos</h3>
+        <h3 class="text-success"><?= $_SESSION['partida']->getPuntuacion() ?> puntos</h3>
     </div>
 </div>
