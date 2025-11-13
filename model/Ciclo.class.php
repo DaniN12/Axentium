@@ -28,6 +28,5 @@ class Ciclo
     {
         return $this->familia;
     }
-
 }
 ?>

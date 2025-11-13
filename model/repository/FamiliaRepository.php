@@ -3,7 +3,7 @@ require_once(__DIR__ . "/../AccesoBD.class.php");
 require_once(__DIR__ . "/../Familia.class.php");
 require_once(__DIR__ . "/../Ciclo.class.php");
 
-class FamiliasRepository
+class FamiliaRepository
 {
 
     function getFamilias()

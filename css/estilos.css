@@ -1,0 +1,113 @@
+body {
+    background-color: #f8f9fa;
+    padding-bottom: 70px;
+    font-family: system-ui, sans-serif;
+}
+
+/* Navbar superior */
+.navbar-brand {
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+/* Menú inferior fijo estilo app */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-top: 1px solid #dee2e6;
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 0;
+    z-index: 1030;
+}
+.bottom-nav a {
+    text-decoration: none;
+    color: #6c757d;
+    font-size: 0.85rem;
+    text-align: center;
+}
+.bottom-nav a.active,
+.bottom-nav a:focus,
+.bottom-nav a:hover {
+    color: #0d6efd;
+}
+.bottom-nav i {
+    display: block;
+    font-size: 1.25rem;
+}
+
+/* Helpers */
+.container main,
+main.container {
+    padding-top: 4rem;
+}
+
+.sticky-sidebar {
+    position: sticky;
+    top: 4.5rem; /* debajo de la navbar superior */
+}
+
+.alphabet-nav a {
+    display: block;
+    padding: 6px 0;
+    color: #6c757d;
+    text-decoration: none;
+}
+.alphabet-nav a:hover,
+.alphabet-nav a.active {
+    color: #0d6efd;
+    font-weight: 600;
+}
+
+/* Admin */
+.admin-sidebar { width: 240px; }
+
+.table-grouped td {
+    background-color: #f8f9fa;
+}
+
+
+/*********** Juego ***********/
+/* === ANIMACIONES DEL JUEGO === */
+
+/* Transición entre preguntas */
+#texto-pregunta,
+#imagen-container,
+#respuestas {
+  transition: opacity 0.4s ease;
+}
+
+.fade-out {
+  opacity: 0;
+}
+
+.fade-in {
+  opacity: 1;
+}
+
+/* Parpadeo verde o rojo al responder */
+.boton-respuesta.btn-success {
+  background-color: #198754 !important;
+  color: #fff !important;
+  animation: blink-success 0.4s ease-in-out 2;
+}
+
+.boton-respuesta.btn-danger {
+  background-color: #dc3545 !important;
+  color: #fff !important;
+  animation: blink-danger 0.4s ease-in-out 2;
+}
+
+
+/* Efecto "pop" en cada pregunta nueva */
+.pregunta-animada {
+  animation: pop-in 0.3s ease-out;
+}
+
+@keyframes pop-in {
+  0% { transform: scale(0.95); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
