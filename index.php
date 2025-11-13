@@ -21,6 +21,7 @@ session_start();
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
     <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"> -->
 
     <!-- FontAwesome -->
@@ -73,12 +74,15 @@ session_start();
     </main>
 
     <!-- Menú inferior fijo (navegación principal tipo app móvil) -->
+
     <?php if (isset($_SESSION['usuario']) && !isset($_SESSION['admin']) && $view !== 'juego'){ ?>
+
         <nav class="bottom-nav shadow-sm text-dark">
             <a href="<?= BASE_URL ?>control/home_controller.php" class="active ">
                 <i class="fas fa-home"></i>
                 <span class="d-block">Inicio</span>
             </a>
+
             <a href="<?= BASE_URL ?>control/ranking_controller.php">
                 <i class="fas fa-crown"></i>
                 <span class="d-block">Ranking</span>
@@ -87,7 +91,8 @@ session_start();
                 <i class="fas fa-book"></i>
                 <span class="d-block">Glosario</span>
             </a>
-            <a href="index.php?s=notificaciones">
+
+            <a href="index.php?s=notificaciones_user">
                 <i class="fas fa-bell"></i>
                 <span class="d-block">Notificaciones</span>
             </a>
@@ -108,10 +113,8 @@ session_start();
         });
     </script>
     <script src="js/juego.js"></script>
-    <script src="js/user_script.js"></script>
-</body>
 
-</html>
+    <script src="js/user_script.js"></script>
 </body>
 
 </html>

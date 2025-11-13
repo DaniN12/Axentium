@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `categorias` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla lhizki.categorias: ~2 rows (aproximadamente)
+-- Volcando datos para la tabla lhizki.categorias: ~3 rows (aproximadamente)
 INSERT INTO `categorias` (`id`, `nombre`) VALUES
 	(1, 'geografia'),
 	(2, 'historia'),
@@ -142,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `juegos` (
   CONSTRAINT `FK_juegos_familias` FOREIGN KEY (`familiaId`) REFERENCES `familias` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla lhizki.juegos: ~2 rows (aproximadamente)
+-- Volcando datos para la tabla lhizki.juegos: ~5 rows (aproximadamente)
 INSERT INTO `juegos` (`id`, `familiaId`, `activo`, `fecha_inicio`, `fecha_fin`) VALUES
 	(38, 1, 0, '2025-11-03 00:00:00', '2025-11-10 00:00:00'),
 	(39, 2, 0, '2025-11-03 00:00:00', '2025-11-10 00:00:00'),
@@ -162,7 +162,7 @@ CREATE TABLE IF NOT EXISTS `juegos_preguntas` (
   CONSTRAINT `FK_juegos_preguntas_preguntas` FOREIGN KEY (`preguntaId`) REFERENCES `preguntas` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla lhizki.juegos_preguntas: ~4 rows (aproximadamente)
+-- Volcando datos para la tabla lhizki.juegos_preguntas: ~10 rows (aproximadamente)
 INSERT INTO `juegos_preguntas` (`id`, `juegoId`, `preguntaId`) VALUES
 	(54, 38, 4),
 	(55, 38, 11),
@@ -212,7 +212,7 @@ CREATE TABLE IF NOT EXISTS `preguntas` (
   CONSTRAINT `FK_preguntas_familias` FOREIGN KEY (`familiaId`) REFERENCES `familias` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla lhizki.preguntas: ~52 rows (aproximadamente)
+-- Volcando datos para la tabla lhizki.preguntas: ~53 rows (aproximadamente)
 INSERT INTO `preguntas` (`id`, `pregunta`, `opcion1`, `opcion2`, `opcion3`, `correcta`, `usada`, `img`, `familiaId`, `categoriaId`) VALUES
 	(3, 'Capital de Uganda', 'Kiev', 'Managua', 'Kampala', 3, 1, NULL, NULL, 1),
 	(4, 'Capital de Italia', 'Roma', 'Milan', 'Venecia', 1, 1, NULL, NULL, 1),
@@ -319,12 +319,18 @@ CREATE TABLE IF NOT EXISTS `usuario_preguntas` (
   CONSTRAINT `FK_usuario_preguntas_usuarios` FOREIGN KEY (`usuarioId`) REFERENCES `usuarios` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla lhizki.usuario_preguntas: ~4 rows (aproximadamente)
+-- Volcando datos para la tabla lhizki.usuario_preguntas: ~0 rows (aproximadamente)
 INSERT INTO `usuario_preguntas` (`usuarioId`, `juegoId`, `preguntaId`, `respuesta`) VALUES
 	(3, 38, 4, 1),
 	(3, 38, 11, 1),
 	(4, 39, 4, 1),
 	(4, 39, 30, 1);
+	
+CREATE TABLE IF NOT EXISTS `notificaciones` (
+`id` INT NOT NULL AUTO_INCREMENT,
+`texto` VARCHAR(200) NOT NULL,
+PRIMARY KEY (`id`)
+);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

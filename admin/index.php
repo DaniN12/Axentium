@@ -44,7 +44,9 @@ if(!isset($_SESSION['usuario'])){
                 <li class="nav-item mb-2"><a href="?s=usuarios" class="nav-link text-white"><i class="fa-solid fa-users"></i> Usuarios</a></li>
                 <li class="nav-item mb-2"><a href="?s=glosario_admin" class="nav-link text-white"><i class="fa-solid fa-book"></i> Glosario</a></li>
                 <li class="nav-item mb-2"><a href="?s=preguntas" class="nav-link text-white"><i class="fa-solid fa-question"></i> Preguntas</a></li>
+                <li class="nav-item mb-2"><a href="?s=notificaciones_admin" class="nav-link text-white"><i class="fa-solid fas fa-bell"></i> Notificaciones</a></li>
                 <li class="nav-item mt-4"><a href="../index.php" class="nav-link text-secondary"><i class="fa-solid fa-arrow-left"></i> Volver</a></li>
+                
             </ul>
         </aside>
 
@@ -54,6 +56,7 @@ if(!isset($_SESSION['usuario'])){
                 <div class="container-fluid">
                     <span class="navbar-brand mb-0 h5">Panel de Administración</span>
                     <a href="<?= BASE_URL ?>control/logout_controller.php" class="btn btn-outline-danger btn-sm">Cerrar sesión</a>
+
                 </div>
             </nav>
 
@@ -74,7 +77,9 @@ if(!isset($_SESSION['usuario'])){
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
     <script src="../assets/demo/chart-area-demo.js"></script>
     <script src="../assets/demo/chart-bar-demo.js"></script>
+
     <script src="../js/admin_script.js"></script>
+
 </body>
 
 </html>
