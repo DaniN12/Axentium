@@ -6,7 +6,7 @@ class AccesoBD
     const RUTA = "localhost";
     const BD = "lhizki";
     const USER = "root";
-    const PASS = "abcd*1234";
+    const PASS = "123";
 
     public $conexion;
 

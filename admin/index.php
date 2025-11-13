@@ -7,10 +7,14 @@ require_once BASE_PATH . "/model/repository/CategoriaRepository.php";
 require_once BASE_PATH . "/model/repository/JuegoRepository.php";
 require_once BASE_PATH . "/model/repository/UsuarioRepository.php";
 require_once BASE_PATH . "/model/repository/PreguntaRepository.php";
+require_once BASE_PATH . "/model/repository/GlosarioRepository.php";
 session_start();
 
 if(!isset($_SESSION['admin'])){
     header('Location: ../index.php?s=home');
+}
+if(!isset($_SESSION['usuario'])){
+    header('Location: ../index.php?s=login');
 }
 ?>
 
@@ -51,7 +55,8 @@ if(!isset($_SESSION['admin'])){
             <nav class="navbar navbar-light bg-white shadow-sm mb-4 rounded-3">
                 <div class="container-fluid">
                     <span class="navbar-brand mb-0 h5">Panel de Administración</span>
-                    <a href="../index.php" class="btn btn-outline-danger btn-sm">Cerrar sesión</a>
+                    <a href="<?= BASE_URL ?>control/logout_controller.php" class="btn btn-outline-danger btn-sm">Cerrar sesión</a>
+
                 </div>
             </nav>
 
@@ -72,7 +77,9 @@ if(!isset($_SESSION['admin'])){
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
     <script src="../assets/demo/chart-area-demo.js"></script>
     <script src="../assets/demo/chart-bar-demo.js"></script>
-    <script src="../js/my_scripts.js"></script>
+
+    <script src="../js/admin_script.js"></script>
+
 </body>
 
 </html>

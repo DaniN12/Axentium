@@ -1,5 +1,5 @@
 <?php
-require_once(BASE_PATH . '/model/repository/GlosarioRepository.php');
+
 $repo = new GlosarioRepository();
 $palabras = $repo->obtenerTodos();
 ?>
@@ -9,10 +9,9 @@ $palabras = $repo->obtenerTodos();
         <h1 class="h3 mb-0">Glosario Euskera / Castellano (Admin)</h1>
         <a href="../control/exportar_excel.php" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-file-excel me-1"></i> Exportar a Excel</a>
     </div>
-
     <div class="card mb-3">
         <div class="card-body">
-            <form class="row g-2" method="post" action="control/glosario_controller.php">
+            <form class="row g-2" method="post" action="<?= BASE_URL ?>admin/control/glosario_controller.php">
                 <div class="col-12 col-md-5">
                     <div class="form-floating">
                         <input type="text" class="form-control" id="palabra_eu" name="palabra_euskera" placeholder="Euskera" required>
@@ -46,19 +45,17 @@ $palabras = $repo->obtenerTodos();
                     <tbody>
                         <?php foreach ($palabras as $p): ?>
                             <tr>
-                                <td class="w-40">
-                                    <form class="row g-2" method="post" action="../control/glosario_controller.php">
-                                        <div class="col-12 col-md-5">
-                                            <input type="text" class="form-control" name="palabra_euskera" value="<?= htmlspecialchars($p->palabra_euskera) ?>">
-                                        </div>
-                                        <div class="col-12 col-md-5">
-                                            <input type="text" class="form-control" name="palabra_castellano" value="<?= htmlspecialchars($p->palabra_castellano) ?>">
-                                        </div>
-                                        <div class="col-12 col-md-2 text-end">
-                                            <input type="hidden" name="id" value="<?= $p->id ?>">
-                                            <button type="submit" name="editar" class="btn btn-sm btn-outline-primary me-1"><i class="fa-solid fa-floppy-disk"></i></button>
-                                            <button type="submit" name="eliminar" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Eliminar esta palabra?')"><i class="fa-solid fa-trash"></i></button>
-                                        </div>
+                                <td>
+                                    <input type="text" class="form-control" form="form-<?= $p->id ?>" name="palabra_euskera" value="<?= htmlspecialchars($p->palabra_euskera) ?>">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" form="form-<?= $p->id ?>" name="palabra_castellano" value="<?= htmlspecialchars($p->palabra_castellano) ?>">
+                                </td>
+                                <td class="text-end">
+                                    <form id="form-<?= $p->id ?>" method="post" action="<?= BASE_URL ?>admin/control/glosario_controller.php">
+                                        <input type="hidden" name="id" value="<?= $p->id ?>">
+                                        <button type="submit" name="editar" class="btn btn-sm btn-outline-primary me-1"><i class="fa-solid fa-floppy-disk"></i></button>
+                                        <button type="submit" name="eliminar" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Eliminar esta palabra?')"><i class="fa-solid fa-trash"></i></button>
                                     </form>
                                 </td>
                             </tr>

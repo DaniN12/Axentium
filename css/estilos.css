@@ -4,13 +4,16 @@ body {
     font-family: system-ui, sans-serif;
 }
 
-/* Navbar superior */
+/************* Navbar superior *************/
 .navbar-brand {
     font-weight: 600;
     letter-spacing: 0.3px;
 }
 
-/* Menú inferior fijo estilo app */
+/*********** Registro ************/
+
+
+/*********** Menu inferior fijo ***********/
 .bottom-nav {
     position: fixed;
     bottom: 0;
@@ -39,7 +42,7 @@ body {
     font-size: 1.25rem;
 }
 
-/* Helpers */
+/******* Helpers *******/
 .container main,
 main.container {
     padding-top: 4rem;
@@ -47,7 +50,7 @@ main.container {
 
 .sticky-sidebar {
     position: sticky;
-    top: 4.5rem; /* debajo de la navbar superior */
+    top: 4.5rem; 
 }
 
 .alphabet-nav a {
@@ -71,8 +74,6 @@ main.container {
 
 
 /*********** Juego ***********/
-/* === ANIMACIONES DEL JUEGO === */
-
 /* Transición entre preguntas */
 #texto-pregunta,
 #imagen-container,
@@ -110,4 +111,9 @@ main.container {
 @keyframes pop-in {
   0% { transform: scale(0.95); opacity: 0; }
   100% { transform: scale(1); opacity: 1; }
+}
+
+/************** Glosario **************/
+[id^="sec-"] {
+  scroll-margin-top: 60px; /* ajusta según la altura de tu barra */
 }

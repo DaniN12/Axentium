@@ -16,7 +16,6 @@
 
 
 -- Volcando estructura de base de datos para lhizki
-DROP DATABASE IF EXISTS `lhizki`;
 CREATE DATABASE IF NOT EXISTS `lhizki` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `lhizki`;
 
@@ -99,9 +98,37 @@ CREATE TABLE IF NOT EXISTS `glosario` (
   `palabra_euskera` varchar(100) NOT NULL,
   `palabra_castellano` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla lhizki.glosario: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla lhizki.glosario: ~27 rows (aproximadamente)
+INSERT INTO `glosario` (`id`, `palabra_euskera`, `palabra_castellano`) VALUES
+	(2, 'hezkuntza', 'educación'),
+	(3, 'gako-hitz', 'palabra clave'),
+	(4, 'informatika', 'informática'),
+	(5, 'eragile', 'operador'),
+	(6, 'arau orokor', 'norma general'),
+	(7, 'atal', 'apartado'),
+	(8, 'adimen artifizial', 'inteligencia artificial'),
+	(9, 'bilaketa', 'búsqueda'),
+	(10, 'zerrenda', 'lista'),
+	(11, 'egitura', 'estructura'),
+	(12, 'luzapen', 'extensión'),
+	(13, 'helbide', 'dirección'),
+	(14, 'zirkulazio-datu', 'dato de tráfico'),
+	(15, 'sagu', 'ratón'),
+	(16, 'zor', 'deuda'),
+	(17, 'merkataritza', 'comercio'),
+	(18, 'jarduera', 'actividad'),
+	(19, 'etekin', 'beneficio'),
+	(20, 'bezero', 'cliente'),
+	(21, 'eraso', 'agresión'),
+	(22, 'ikasle', 'alumnado'),
+	(23, 'ongizate', 'bienestar'),
+	(24, 'sormen', 'creatividad'),
+	(25, 'gatazka', 'conflicto'),
+	(26, 'nerabe', 'adolescente'),
+	(27, 'produktu gatibu', 'producto cautivo'),
+	(28, 'ukiezintasun', 'intangibilidad');
 
 -- Volcando estructura para tabla lhizki.juegos
 CREATE TABLE IF NOT EXISTS `juegos` (

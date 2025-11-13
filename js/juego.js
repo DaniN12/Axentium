@@ -41,10 +41,12 @@ document.addEventListener("DOMContentLoaded", () => {
       if (p.imagen) {
         imagenPregunta.src = p.imagen;
         imagenPregunta.style.display = "block";
+        imagenContainer.classList.remove("d-none");
       } else {
         imagenPregunta.style.display = "none";
+        imagenContainer.classList.add("d-none");
       }
-      imagenContainer.classList.remove("fade-out");
+      imagenContainer.classList.remove("fade-out", "fade-in", "pregunta-animada");
       imagenContainer.classList.add("fade-in");
 
       botones.forEach((btn, i) => {
@@ -74,9 +76,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     if (elegida === correcta) respuestasCorrectas++;
-    respuestasUsuario.push({preguntaId, respuesta: elegida});
+    respuestasUsuario.push({
+      preguntaId,
+      respuesta: elegida
+    });
 
-    setTimeout(() => siguientePregunta(), 1500);
+    setTimeout(() => siguientePregunta(), 1000);
   }
 
   function siguientePregunta() {
@@ -91,9 +96,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function actualizarProgreso() {
-    const porcentaje = (preguntaActual / preguntas.length) * 100;
+    const porcentaje = ((preguntaActual + 1) / preguntas.length) * 100;
     barraProgreso.style.width = `${porcentaje}%`;
-    textoProgreso.textContent = `Pregunta ${preguntaActual + 1}/${
+    const preguntaVisible = Math.min(preguntaActual + 1, preguntas.length);
+    textoProgreso.textContent = `Pregunta ${preguntaVisible}/${
       preguntas.length
     }`;
   }
