@@ -21,10 +21,12 @@ session_start();
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"> -->
 
     <!-- FontAwesome -->
-    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 
     <!-- Estilos personalizados -->
     <link rel="stylesheet" href="css/estilos.css">
@@ -71,7 +73,7 @@ session_start();
     </main>
 
     <!-- Menú inferior fijo (navegación principal tipo app móvil) -->
-    <?php if (isset($_SESSION['usuario']) && !isset($_SESSION['admin'])){ ?>
+    <?php if (isset($_SESSION['usuario']) && !isset($_SESSION['admin']) && $view !== 'juego'){ ?>
         <nav class="bottom-nav shadow-sm text-dark">
             <a href="<?= BASE_URL ?>control/home_controller.php" class="active ">
                 <i class="fas fa-home"></i>
@@ -106,6 +108,10 @@ session_start();
         });
     </script>
     <script src="js/juego.js"></script>
+    <script src="js/user_script.js"></script>
+</body>
+
+</html>
 </body>
 
 </html>
