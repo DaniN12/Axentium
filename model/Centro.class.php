@@ -8,7 +8,7 @@ class Centro
     private $localidad;
     private $ciclos;
 
-    public function __construct($id, $nombre, $localidad, array $ciclos)
+    public function __construct($id, $nombre, $localidad=null, array $ciclos=null)
     {
         $this->id = $id;
         $this->nombre = $nombre;

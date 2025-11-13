@@ -1,0 +1,39 @@
+<?php
+session_start();
+require_once(__DIR__ . '/../config.php');
+require_once BASE_PATH . '/model/repository/UsuarioRepository.php';
+require_once BASE_PATH . '/model/Usuario.class.php';
+require_once BASE_PATH . '/model/Ciclo.class.php';
+require_once BASE_PATH . '/model/Familia.class.php';
+require_once BASE_PATH . '/model/Rol.class.php';
+// require_once BASE_PATH . '/model/repository/JuegoRepository.php';
+// require_once BASE_PATH . '/model/AccesoBD.class.php';
+
+$username = $_POST['username'];
+$password = md5(trim($_POST['password']));
+
+$usuarioRepository = new UsuarioRepository();
+$user = $usuarioRepository->getUser($username, $password);
+
+if ($user) {
+    // Guardar datos en la sesión
+    $_SESSION['usuario'] = $user;
+    $userRol = $user->getRol();
+
+    // Redirigir según el rol
+    $rolLogueado = strtolower($user->getRol()->getRolName());
+
+    if ($rolLogueado == 'admin' || $rolLogueado == 'sa') {
+        $_SESSION['admin'] = true;
+        header('Location: ' . BASE_URL . 'admin/index.php?s=home');
+
+    } else if($rolLogueado == 'usuario') {
+        $familiaId = $user->getCiclo()->getFamilia()->getId();
+        $_SESSION['familiaId']=$familiaId;
+        header('Location: ' . BASE_URL . 'control/home_controller.php');
+    }
+
+} else {
+    // Mostrar flash de error, redirigir a login
+    header('Location: ' . BASE_URL . 'index.php?s=login');
+}

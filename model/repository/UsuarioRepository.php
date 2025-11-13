@@ -1,6 +1,11 @@
 
 <?php
-require_once(__DIR__."/../AccesoBD.class.php");
+require_once(BASE_PATH . "/model/AccesoBD.class.php");
+require_once(BASE_PATH . "/model/Centro.class.php");
+require_once(BASE_PATH . "/model/Familia.class.php");
+require_once(BASE_PATH . "/model/Ciclo.class.php");
+require_once(BASE_PATH . "/model/Rol.class.php");
+require_once(BASE_PATH . "/model/Usuario.class.php");
 
 class UsuarioRepository
 {
@@ -19,7 +24,7 @@ class UsuarioRepository
         }
 
         $sqlInsert = "INSERT INTO usuarios(username, email, password, rolId, centroId, cicloId)
-                    VALUES ('$username','$email','$pass', '".self::ROL_USUARIO."', '$centro', '$ciclo')";
+                    VALUES ('$username','$email','$pass', '" . self::ROL_USUARIO . "', '$centro', '$ciclo')";
         $bd->lanzarSQL($sqlInsert);
 
         return true;
@@ -28,10 +33,14 @@ class UsuarioRepository
     function getUser($username, $pass)
     {
         $bd = new AccesoBD();
-        $sql = "SELECT username, email, fecha_verificacion, rolId, roles.rol
-            FROM usuarios 
-            INNER JOIN roles ON usuarios.rolId=roles.id 
-            WHERE username='$username' AND pass='$pass' 
+        $sql = "SELECT u.id, u.username, u.email, u.rolId, r.nombre AS rol,
+            u.cicloId, ci.nombre AS cicloNombre, ci.familiaId, 
+            u.centroId, c.nombre AS centroNombre
+            FROM usuarios u
+            INNER JOIN roles r ON u.rolId=r.id 
+            INNER JOIN centros c ON u.centroId=c.id
+            INNER JOIN ciclos ci ON u.cicloId=ci.id
+            WHERE username='$username' AND password='$pass' 
             LIMIT 1;";
         $result = mysqli_query($bd->conexion, $sql);
 
@@ -39,13 +48,12 @@ class UsuarioRepository
 
             extract($fila);
 
-            if ($fecha_verificacion == null) {
-                return null;
-            } else {
-                $rol = new Rol($rol, $rolId);
-                $user = new Usuario($id, $username, $email, $rol);
-                return $user;
-            }
+            $rol = new Rol($rol, $rolId);
+            $centro = new Centro($centroId, $centroNombre);
+            $familia = new Familia($familiaId);
+            $ciclo = new Ciclo($cicloId, $cicloNombre, $familia);
+            $user = new Usuario($id, $username, $email, $rol, $ciclo, $centro);
+            return $user;
         }
         return null;
     }
@@ -72,10 +80,14 @@ class UsuarioRepository
     function getUserById($id)
     {
         $bd = new AccesoBD();
-        $sql = "SELECT username, email, fecha_verificacion, rolId, roles.rol
-            FROM usuarios 
-            INNER JOIN roles ON usuarios.rolId=roles.id 
-            WHERE usuarios.id='$id' 
+        $sql = "SELECT u.id, u.username, u.email, u.rolId, r.nombre AS rol,
+            u.cicloId, ci.nombre AS cicloNombre, ci.familiaId, 
+            u.centroId, c.nombre AS centroNombre
+            FROM usuarios u
+            INNER JOIN roles r ON u.rolId=r.id 
+            INNER JOIN centros c ON u.centroId=c.id
+            INNER JOIN ciclos ci ON u.cicloId=ci.id
+            WHERE u.id='$id' 
             LIMIT 1;";
         $result = mysqli_query($bd->conexion, $sql);
 
@@ -83,15 +95,45 @@ class UsuarioRepository
 
             extract($fila);
 
-            if ($fecha_verificacion == null) {
-                return null;
-            } else {
-                $rol = new Rol($rol, $rolId);
-                $user = new Usuario($id, $username, $email, $rol);
-                return $user;
-            }
+            $rol = new Rol($rol, $rolId);
+            $centro = new Centro($centroId, $centroNombre);
+            $familia = new Familia($familiaId);
+            $ciclo = new Ciclo($cicloId, $cicloNombre, $familia);
+            $user = new Usuario($id, $username, $email, $rol, $ciclo, $centro);
+            return $user;
         }
         return null;
+    }
+    function getAllUsuarios()
+    {
+        $bd = new AccesoBD();
+        $sql = "SELECT u.id, u.username, u.email, u.rolId, r.nombre AS rol,
+            u.cicloId, ci.nombre AS cicloNombre, ci.familiaId, 
+            u.centroId, c.nombre AS centroNombre
+            FROM usuarios u
+            INNER JOIN roles r ON u.rolId=r.id 
+            INNER JOIN centros c ON u.centroId=c.id
+            INNER JOIN ciclos ci ON u.cicloId=ci.id
+            INNER JOIN familias f ON f.id=ci.familiaId;";
+
+        $result = mysqli_query($bd->conexion, $sql);
+        $usuarios = [];
+
+        if ($result) {
+            while ($fila = mysqli_fetch_assoc($result)) {
+                extract($fila);
+
+                $rol = new Rol($rol, $rolId);
+                $centro = new Centro($centroId, $centroNombre);
+                $familia = new Familia($familiaId);
+                $ciclo = new Ciclo($cicloId, $cicloNombre, $familia);
+
+                $user = new Usuario($id, $username, $email, $rol, $ciclo, $centro);
+                $usuarios[] = $user;
+            }
+        }
+
+        return $usuarios;
     }
 }
 ?>

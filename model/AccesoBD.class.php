@@ -6,7 +6,7 @@ class AccesoBD
     const RUTA = "localhost";
     const BD = "lhizki";
     const USER = "root";
-    const PASS = "abcd*1234";
+    const PASS = "123";
 
     public $conexion;
 
@@ -19,7 +19,6 @@ class AccesoBD
     {
         $this->conexion = mysqli_connect(self::RUTA, self::USER, self::PASS, self::BD) or
             die("Error al establecer la conexión");
-        echo "Conexión establecida";
     }
 
     function cerrarConexion()

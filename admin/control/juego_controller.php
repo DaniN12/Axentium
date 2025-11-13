@@ -14,7 +14,6 @@ if ($action == 'crearJuegosByCentro') {
     //0. Elegir preguntas generales
     $preguntaRepo = new PreguntaRepository();
     $preguntasGenerales = $preguntaRepo->seleccionarPreguntasGenerales();
-    var_dump($preguntasGenerales);
 
     //1. Obtener familias del centro
     $centroRepo = new CentroRepository();
@@ -29,15 +28,14 @@ if ($action == 'crearJuegosByCentro') {
         //3. Elegir preguntas por familia
         $preguntas = $preguntaRepo->seleccionarPreguntas($familiaId);
         $preguntasFinales = array_merge($preguntasGenerales, $preguntas);
-        echo ('<pre>');
-        var_dump($preguntasFinales);
-        echo ('</pre>');
+        
 
         //4. Asignar preguntas al juego
         foreach($preguntasFinales as $pregunta){
             $juegoRepo->addPreguntaToJuego($juegoId, $pregunta->getId());
         }
     }
+    header('Location: ' . BASE_URL . 'admin/index.php?s=juegos');
 }
 
 // header("Location: ../index.php?s=test-admin"); 
