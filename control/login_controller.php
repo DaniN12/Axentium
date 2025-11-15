@@ -12,7 +12,8 @@ require_once BASE_PATH . '/model/Rol.class.php';
 $username = $_POST['username'];
 $password = md5(trim($_POST['password']));
 
-$usuarioRepository = new UsuarioRepository();
+$bd = new AccesoBD();
+$usuarioRepository = new UsuarioRepository($bd->conexion);
 $user = $usuarioRepository->getUser($username, $password);
 
 if ($user) {

@@ -1,7 +1,8 @@
 <?php
-$preguntaRepository = new PreguntaRepository();
-$familiaRepository = new FamiliaRepository();
-$categoriaRepository = new CategoriaRepository();
+$bd = new AccesoBD();
+$preguntaRepository = new PreguntaRepository($bd->conexion);
+$familiaRepository = new FamiliaRepository($bd->conexion);
+$categoriaRepository = new CategoriaRepository($bd->conexion);
 $familias = $familiaRepository->getFamilias();
 $categorias = $categoriaRepository->getCategorias();
 

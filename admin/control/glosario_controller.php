@@ -2,7 +2,8 @@
 require_once(__DIR__ . '/../../config.php');
 require_once(BASE_PATH . "/model/repository/GlosarioRepository.php");
 
-$repo = new GlosarioRepository();
+$bd = new AccesoBD();
+$repo = new GlosarioRepository($bd->conexion);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['agregar'])) {

@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . "/../../control/notificaciones_controller.php";
-$repo = new NotificacionesRepository();
+$bd = new AccesoBD();
+$repo = new NotificacionesRepository($bd->conexion);
 $notificaciones = $repo->getAll();
 ?>
 <!DOCTYPE html>
@@ -17,9 +18,9 @@ $notificaciones = $repo->getAll();
 
     <?php if (isset($_GET['msg'])): ?>
         <?php if ($_GET['msg'] === 'creada'): ?>
-            <div class="alert alert-success">✅ Notificación creada correctamente.</div>
+            <div class="alert alert-success">Notificación creada correctamente.</div>
         <?php elseif ($_GET['msg'] === 'eliminada'): ?>
-            <div class="alert alert-danger">🗑️ Notificación eliminada correctamente.</div>
+            <div class="alert alert-danger">Notificación eliminada correctamente.</div>
         <?php endif; ?>
     <?php endif; ?>
 

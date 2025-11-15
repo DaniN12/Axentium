@@ -7,9 +7,15 @@ require_once(BASE_PATH . "/model/Centro.class.php");
 
 class CentroRepository
 {
+    private $conexion;
+
+    function __construct($conexion)
+    {
+        $this->conexion = $conexion;
+    }
+
     function getCentros()
     {
-        $bd = new AccesoBD();
         $sql = "SELECT 
             c.id AS centroId, 
             c.nombre AS centroNombre, 
@@ -21,7 +27,7 @@ class CentroRepository
             LEFT JOIN centros_ciclos cc ON cc.centroId = c.id
             LEFT JOIN ciclos ci ON ci.id = cc.cicloId
             ;";
-        $result = mysqli_query($bd->conexion, $sql);
+        $result = mysqli_query($this->conexion, $sql);
 
         $centros = [];
 
@@ -47,14 +53,13 @@ class CentroRepository
 
     function getCiclosByCentroId($centroId)
     {
-        $bd = new AccesoBD;
         $sql = "SELECT c.id, c.nombre, c.familiaId, f.nombre AS familia
             FROM ciclos c
             INNER JOIN centros_ciclos cc ON cc.cicloId = c.id 
             INNER JOIN familias f ON f.id = c.familiaId
             WHERE centroId = $centroId;
         ";
-        $result = mysqli_query($bd->conexion, $sql);
+        $result = mysqli_query($this->conexion, $sql);
 
         $ciclos = [];
 
@@ -72,14 +77,13 @@ class CentroRepository
 
     function getFamiliasByCentroId($centroId)
     {
-        $bd = new AccesoBD;
         $sql = "SELECT DISTINCT c.familiaId, f.nombre
             FROM ciclos c
             INNER JOIN centros_ciclos cc ON cc.cicloId = c.id 
             INNER JOIN familias f ON f.id = c.familiaId
             WHERE centroId = $centroId;
         ";
-        $result = mysqli_query($bd->conexion, $sql);
+        $result = mysqli_query($this->conexion, $sql);
 
         $familias = [];
 

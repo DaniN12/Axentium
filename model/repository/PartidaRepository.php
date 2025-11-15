@@ -9,16 +9,20 @@ require_once(BASE_PATH . "/model/repository/JuegoRepository.php");
 
 class PartidaRepository
 {
+    private $conexion;
+
+    function __construct($conexion)
+    {
+        $this->conexion = $conexion;
+    }
     function crearPartida($juegoId, $usuarioId, $puntuacion, $fecha)
     {
         $fecha = $fecha->format('Y-m-d H:i:s');
-        $bd = new AccesoBD();
         $sql = "INSERT INTO partidas (juegoId, usuarioId, puntuacion, fecha) VALUES ('$juegoId', '$usuarioId', '$puntuacion', '$fecha');";
-        mysqli_query($bd->conexion, $sql);
+        mysqli_query($this->conexion, $sql);
     }
     function getAllPuntuaciones()
     {
-        $bd = new AccesoBD();
         $sql = "SELECT 
             u.id AS usuarioId, 
             u.username AS usuario, 
@@ -27,7 +31,7 @@ class PartidaRepository
         INNER JOIN usuarios u ON p.usuarioId = u.id
         GROUP BY u.id, u.username
         ORDER BY puntuacion DESC;";
-        $resultado = mysqli_query($bd->conexion, $sql);
+        $resultado = mysqli_query($this->conexion, $sql);
 
         $ranking = [];
         while ($fila = mysqli_fetch_assoc($resultado)) {

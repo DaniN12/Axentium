@@ -1,6 +1,6 @@
 <?php
-
-$repo = new GlosarioRepository();
+$bd = new AccesoBD();
+$repo = new GlosarioRepository($bd->conexion);
 $palabras = $repo->obtenerTodos();
 ?>
 

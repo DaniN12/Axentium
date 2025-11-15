@@ -1,13 +1,15 @@
 <?php
+$bd = new AccesoBD();
+$conexion = $bd->conexion;
 
-$centroRepository = new CentroRepository();
+$centroRepository = new CentroRepository($conexion);
 $centros = $centroRepository->getCentros();
-$cicloRepository = new CicloRepository();
+$cicloRepository = new CicloRepository($conexion);
 $ciclos = $cicloRepository->getCiclos();
-$juegoRepository = new JuegoRepository();
-$juegosActivos = $juegoRepository->getAllJuegos();
-$proximosJuegos = $juegoRepository->getProximosJuegos();
-$juegosPasados = $juegoRepository->getJuegosPasados();
+$juegoRepository = new JuegoRepository($conexion);
+$juegosActivos = $juegoRepository->getJuegosPorEstado('activos');
+$proximosJuegos = $juegoRepository->getJuegosPorEstado('proximos');
+$juegosPasados = $juegoRepository->getJuegosPorEstado('pasados');
 
 ?>
 <div class="container-fluid px-4">
@@ -79,10 +81,6 @@ $juegosPasados = $juegoRepository->getJuegosPasados();
                                     <td><?= $juego->getFechaFin()->format('Y-m-d') ?></td>
                                     <td><?= count($juego->getPreguntas()) ?></td>
                                     <td class="text-end">
-                                        <a href="<?= BASE_URL ?>admin/control/juego_controller.php?action=editar&id=<?= $juego->getId() ?>"
-                                            class="btn btn-sm btn-outline-secondary">
-                                            <i class="fa-solid fa-pen"></i>
-                                        </a>
                                         <a href="<?= BASE_URL ?>admin/control/juego_controller.php?action=eliminar&id=<?= $juego->getId() ?>"
                                             class="btn btn-sm btn-outline-danger"
                                             onclick="return confirm('¿Seguro que deseas eliminar este juego?');">

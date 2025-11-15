@@ -1,5 +1,4 @@
 <?php
-require_once(BASE_PATH . "/model/AccesoBD.class.php");
 require_once(BASE_PATH . "/model/Familia.class.php");
 require_once(BASE_PATH . "/model/Categoria.class.php");
 require_once(BASE_PATH . "/model/Pregunta.class.php");
@@ -7,17 +6,22 @@ require_once(BASE_PATH . "/model/Pregunta.class.php");
 
 class PreguntaRepository
 {
+    private $conexion;
+
+    function __construct($conexion)
+    {
+        $this->conexion = $conexion;
+    }
 
     function seleccionarPreguntasGenerales()
     {
-        $bd = new AccesoBD();
         $sql = "SELECT id, pregunta, opcion1, opcion2, opcion3, correcta, usada, img, familiaId, categoriaId
                 FROM preguntas
                 WHERE familiaId is null AND usada = 0
                 ORDER BY RAND()
                 LIMIT 3;
                 ";
-        $result = mysqli_query($bd->conexion, $sql);
+        $result = mysqli_query($this->conexion, $sql);
 
         $preguntas = [];
         if ($result) {
@@ -46,19 +50,18 @@ class PreguntaRepository
             }
             return $preguntas;
         }
-        return null;
+        return [];
     }
 
     function seleccionarPreguntas($familiaId)
     {
-        $bd = new AccesoBD();
         $sql = "SELECT id, pregunta, opcion1, opcion2, opcion3, correcta, usada, img, familiaId, categoriaId
                 FROM preguntas
                 WHERE familiaId = '$familiaId' AND usada = 0
                 ORDER BY RAND()
                 LIMIT 3;
                 ";
-        $result = mysqli_query($bd->conexion, $sql);
+        $result = mysqli_query($this->conexion, $sql);
 
         $preguntas = [];
 
@@ -87,12 +90,11 @@ class PreguntaRepository
             }
             return $preguntas;
         }
-        return null;
+        return [];
     }
 
     function marcarPreguntasUsadasPorJuego($juegoId)
     {
-        $bd = new AccesoBD();
         $sql = "UPDATE preguntas 
                 SET usada = 1 
                 WHERE id IN (
@@ -100,20 +102,18 @@ class PreguntaRepository
                     FROM juegos_preguntas 
                     WHERE juegoId = $juegoId
                 )";
-        $bd->lanzarSQL($sql);
+        mysqli_query($this->conexion, $sql);
     }
 
     function guardarRespuestaUsuario($usuarioId, $juegoId, $preguntaId, $respuesta)
     {
-        $bd = new AccesoBD();
         $sql = "INSERT INTO usuario_preguntas (usuarioId, juegoId, preguntaId, respuesta)
                 VALUES ('$usuarioId', '$juegoId', '$preguntaId', '$respuesta')";
-        $bd->lanzarSQL($sql);
+        mysqli_query($this->conexion, $sql);
     }
 
     public function getAllPreguntas($inicio, $porPagina)
     {
-        $bd = new AccesoBD();
 
         $sql = "SELECT 
                 p.id, p.pregunta, p.opcion1, p.opcion2, p.opcion3, p.correcta, 
@@ -126,7 +126,7 @@ class PreguntaRepository
             ORDER BY p.id ASC
             LIMIT $inicio, $porPagina";
 
-        $result = mysqli_query($bd->conexion, $sql);
+        $result = mysqli_query($this->conexion, $sql);
         $preguntas = [];
 
         if ($result) {
@@ -164,16 +164,14 @@ class PreguntaRepository
 
     public function contarPreguntas()
     {
-        $bd = new AccesoBD();
         $sql = "SELECT COUNT(*) AS total FROM preguntas";
-        $result = mysqli_query($bd->conexion, $sql);
+        $result = mysqli_query($this->conexion, $sql);
         $row = mysqli_fetch_assoc($result);
         return $row ? (int)$row['total'] : 0;
     }
 
     public function getPreguntasPorFamilia($familiaId)
     {
-        $bd = new AccesoBD();
 
         if ($familiaId === null) {
             // Preguntas generales
@@ -192,7 +190,7 @@ class PreguntaRepository
             WHERE $where
             ORDER BY p.id ASC";
 
-        $result = mysqli_query($bd->conexion, $sql);
+        $result = mysqli_query($this->conexion, $sql);
 
         $preguntas = [];
         if ($result) {
@@ -231,17 +229,15 @@ class PreguntaRepository
             throw new Exception("Debe especificarse una familia o una categoría para la pregunta.");
         }
 
-        $bd = new AccesoBD();
-
-        $preguntaSQL  = "'" . mysqli_real_escape_string($bd->conexion, $pregunta) . "'";
-        $opcion1SQL   = "'" . mysqli_real_escape_string($bd->conexion, $opcion1) . "'";
-        $opcion2SQL   = "'" . mysqli_real_escape_string($bd->conexion, $opcion2) . "'";
-        $opcion3SQL   = "'" . mysqli_real_escape_string($bd->conexion, $opcion3) . "'";
-        $correctaSQL  = "'" . mysqli_real_escape_string($bd->conexion, $correcta) . "'";
+        $preguntaSQL  = "'" . mysqli_real_escape_string($this->conexion, $pregunta) . "'";
+        $opcion1SQL   = "'" . mysqli_real_escape_string($this->conexion, $opcion1) . "'";
+        $opcion2SQL   = "'" . mysqli_real_escape_string($this->conexion, $opcion2) . "'";
+        $opcion3SQL   = "'" . mysqli_real_escape_string($this->conexion, $opcion3) . "'";
+        $correctaSQL  = "'" . mysqli_real_escape_string($this->conexion, $correcta) . "'";
         $usadaSQL     = 0;
-        $familiaSQL   = $familiaId ? "'" . mysqli_real_escape_string($bd->conexion, $familiaId) . "'" : "NULL";
-        $categoriaSQL = $categoriaId ? "'" . mysqli_real_escape_string($bd->conexion, $categoriaId) . "'" : "NULL";
-        $imgSQL       = $img ? "'" . mysqli_real_escape_string($bd->conexion, $img) . "'" : "NULL";
+        $familiaSQL   = $familiaId ? "'" . mysqli_real_escape_string($this->conexion, $familiaId) . "'" : "NULL";
+        $categoriaSQL = $categoriaId ? "'" . mysqli_real_escape_string($this->conexion, $categoriaId) . "'" : "NULL";
+        $imgSQL       = $img ? "'" . mysqli_real_escape_string($this->conexion, $img) . "'" : "NULL";
 
 
         // usada = 0 por defecto
@@ -249,10 +245,10 @@ class PreguntaRepository
             VALUES ($preguntaSQL, $opcion1SQL, $opcion2SQL, $opcion3SQL, $correctaSQL, $usadaSQL, $familiaSQL, $categoriaSQL, $imgSQL)";
 
 
-        $resultado = mysqli_query($bd->conexion, $sql);
+        $resultado = mysqli_query($this->conexion, $sql);
 
         if (!$resultado) {
-            throw new Exception("Error al crear la pregunta: " . mysqli_error($bd->conexion));
+            throw new Exception("Error al crear la pregunta: " . mysqli_error($this->conexion));
         }
 
         return true;

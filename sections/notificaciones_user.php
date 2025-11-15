@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . "/../control/notificaciones_controller.php";
-$repo = new NotificacionesRepository();
-$notificaciones = $repo->getAll();
+// $repo = new NotificacionesRepository();
+// $notificaciones = $repo->getAll();
 ?>
 <!DOCTYPE html>
 <html lang="es">

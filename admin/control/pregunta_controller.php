@@ -3,7 +3,8 @@ require_once(__DIR__ . '/../../config.php');
 require_once(BASE_PATH . "/model/repository/PreguntaRepository.php");
 require_once(BASE_PATH . "/model/Pregunta.class.php");
 
-$preguntaRepository = new PreguntaRepository();
+$bd = new AccesoBD();
+$preguntaRepository = new PreguntaRepository($bd->conexion);
 
 $imgNombre = null;
 if (isset($_FILES['img']) && $_FILES['img']['error'] === UPLOAD_ERR_OK) {

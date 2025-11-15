@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/config.php";
+require_once BASE_PATH . '/model/AccesoBD.class.php';
 require_once BASE_PATH . '/model/Rol.class.php';
 require_once BASE_PATH . '/model/Ciclo.class.php';
 require_once BASE_PATH . '/model/Familia.class.php';
@@ -8,6 +9,7 @@ require_once BASE_PATH . '/model/Categoria.class.php';
 require_once BASE_PATH . '/model/Pregunta.class.php';
 require_once BASE_PATH . '/model/Partida.class.php';
 require_once BASE_PATH . '/model/Juego.class.php';
+require_once BASE_PATH . '/model/Glosario.class.php';
 session_start();
 ?>
 
@@ -64,10 +66,10 @@ session_start();
             unset($_SESSION['flash'], $_SESSION['flash-type']);
         }
 
-        $view = "home";
-        if (isset($_GET['s'])) {
-            $view = $_GET['s'];
-        }
+        $view = $_GET['s'] ?? 'home';
+        // if ($view === 'glosario_user') {
+        //     require_once BASE_PATH . '/control/glosario_controller.php';
+        // }
         include "./sections/$view.php";
 
         ?>
@@ -75,7 +77,7 @@ session_start();
 
     <!-- Menú inferior fijo (navegación principal tipo app móvil) -->
 
-    <?php if (isset($_SESSION['usuario']) && !isset($_SESSION['admin']) && $view !== 'juego'){ ?>
+    <?php if (isset($_SESSION['usuario']) && !isset($_SESSION['admin']) && $view !== 'juego') { ?>
 
         <nav class="bottom-nav shadow-sm text-dark">
             <a href="<?= BASE_URL ?>control/home_controller.php" class="active ">
@@ -87,7 +89,7 @@ session_start();
                 <i class="fas fa-crown"></i>
                 <span class="d-block">Ranking</span>
             </a>
-            <a href="index.php?s=glosario_user">
+            <a href="<?= BASE_URL ?>control/glosario_controller.php">
                 <i class="fas fa-book"></i>
                 <span class="d-block">Glosario</span>
             </a>
