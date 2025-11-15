@@ -30,12 +30,12 @@ if(!isset($_SESSION['usuario'])){
         // Mensajes específicos
         if ($msg === 'none') {
             echo '<div class="alert alert-warning d-flex align-items-center" role="alert">
-                <i class="fa-solid fa-circle-info me-2"></i>
+                <i class="fas fa-solid fa-circle-info me-2"></i>
                 <div>No hay un juego activo para tu familia actualmente.</div>
               </div>';
         } elseif ($msg === 'jugado') {
             echo '<div class="alert alert-info d-flex align-items-center" role="alert">
-                <i class="fa-solid fa-circle-check me-2"></i>
+                <i class="fas fa-solid fa-circle-check me-2"></i>
                 <div>¡Ya has jugado a este juego!</div>
               </div>';
         } ?>
@@ -49,7 +49,7 @@ if(!isset($_SESSION['usuario'])){
         ?>
             <div class="card border-success mb-3">
                 <div class="card-header bg-success text-white">
-                    <i class="fa-solid fa-gamepad me-1"></i> Juego activo
+                    <i class="fas fa-solid fa-gamepad me-1"></i> Juego activo
                 </div>
                 <div class="card-body">
                     <div class="row g-2">
@@ -60,7 +60,7 @@ if(!isset($_SESSION['usuario'])){
                     </div>
                     <div class="d-grid mt-3">
                         <a href="<?= BASE_URL ?>control/juego_controller.php" class="btn btn-primary">
-                            <i class="fa-solid fa-play me-1"></i> Jugar ahora
+                            <i class="fas fa-solid fa-play me-1"></i> Jugar ahora
                         </a>
                     </div>
                 </div>
@@ -69,7 +69,7 @@ if(!isset($_SESSION['usuario'])){
         }?> 
         <div class="card border-success mb-3">
                 <div class="card-header bg-secondary text-white">
-                    <i class="fa-solid fa-book me-1"></i> Sigue aprendiendo
+                    <i class="fas fa-solid fa-book me-1"></i> Sigue aprendiendo
                 </div>
                 <div class="card-body">
                     <div class="row g-2">

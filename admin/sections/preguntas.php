@@ -93,8 +93,8 @@ $preguntasGenerales = $preguntaRepository->getPreguntasPorFamilia(null);
 
             <div class="col-md-6">
                 <div class="card shadow-sm h-100">
-                    <div class="card-header bg-info text-white">
-                        <i class="fa-solid fa-people-group me-2"></i> Crear pregunta por familia
+                    <div class="card-header bg-primary text-white">
+                        <i class="fa-solid fa-book me-2"></i> Crear pregunta por familia
                     </div>
 
                     <div class="card-body">

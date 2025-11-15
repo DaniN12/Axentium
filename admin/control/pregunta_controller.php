@@ -1,5 +1,6 @@
 <?php
 require_once(__DIR__ . '/../../config.php');
+require_once(__DIR__ . '/../../model/AccesoBD.class.php');
 require_once(BASE_PATH . "/model/repository/PreguntaRepository.php");
 require_once(BASE_PATH . "/model/Pregunta.class.php");
 

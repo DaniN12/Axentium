@@ -8,6 +8,8 @@ require_once BASE_PATH . "/model/repository/JuegoRepository.php";
 require_once BASE_PATH . "/model/repository/UsuarioRepository.php";
 require_once BASE_PATH . "/model/repository/PreguntaRepository.php";
 require_once BASE_PATH . "/model/repository/GlosarioRepository.php";
+require_once BASE_PATH . "/model/repository/PartidaRepository.php";
+
 session_start();
 
 if(!isset($_SESSION['admin'])){
@@ -39,13 +41,13 @@ if(!isset($_SESSION['usuario'])){
         <aside class="bg-dark text-white p-3 vh-100 sticky-top admin-sidebar">
             <h4 class="mb-4 text-center">LHizki Admin</h4>
             <ul class="nav flex-column">
-                <li class="nav-item mb-2"><a href="?s=home" class="nav-link text-white"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
-                <li class="nav-item mb-2"><a href="?s=juegos" class="nav-link text-white"><i class="fa-solid fa-gamepad"></i> Juegos</a></li>
-                <li class="nav-item mb-2"><a href="?s=usuarios" class="nav-link text-white"><i class="fa-solid fa-users"></i> Usuarios</a></li>
-                <li class="nav-item mb-2"><a href="?s=glosario_admin" class="nav-link text-white"><i class="fa-solid fa-book"></i> Glosario</a></li>
-                <li class="nav-item mb-2"><a href="?s=preguntas" class="nav-link text-white"><i class="fa-solid fa-question"></i> Preguntas</a></li>
-                <li class="nav-item mb-2"><a href="?s=notificaciones_admin" class="nav-link text-white"><i class="fa-solid fas fa-bell"></i> Notificaciones</a></li>
-                <li class="nav-item mt-4"><a href="../index.php" class="nav-link text-secondary"><i class="fa-solid fa-arrow-left"></i> Volver</a></li>
+                <li class="nav-item mb-2"><a href="?s=home" class="nav-link text-white"><i class="fas fa-solid fa-gauge"></i> Dashboard</a></li>
+                <li class="nav-item mb-2"><a href="?s=juegos" class="nav-link text-white"><i class="fas fa-solid fa-gamepad"></i> Juegos</a></li>
+                <li class="nav-item mb-2"><a href="?s=usuarios" class="nav-link text-white"><i class="fas fa-solid fa-users"></i> Usuarios</a></li>
+                <li class="nav-item mb-2"><a href="?s=glosario_admin" class="nav-link text-white"><i class="fas fa-solid fa-book"></i> Glosario</a></li>
+                <li class="nav-item mb-2"><a href="?s=preguntas" class="nav-link text-white"><i class="fas fa-solid fa-question"></i> Preguntas</a></li>
+                <li class="nav-item mb-2"><a href="?s=notificaciones_admin" class="nav-link text-white"><i class="fas fa-solid fas fa-bell"></i> Notificaciones</a></li>
+                <li class="nav-item mt-4"><a href="../index.php" class="nav-link text-secondary"><i class="fas fa-solid fa-arrow-left"></i> Volver</a></li>
                 
             </ul>
         </aside>
@@ -77,6 +79,7 @@ if(!isset($_SESSION['usuario'])){
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
     <script src="../assets/demo/chart-area-demo.js"></script>
     <script src="../assets/demo/chart-bar-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script src="../js/admin_script.js"></script>
 

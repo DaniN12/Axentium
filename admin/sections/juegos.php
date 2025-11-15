@@ -11,17 +11,17 @@ $juegosActivos = $juegoRepository->getJuegosPorEstado('activos');
 $proximosJuegos = $juegoRepository->getJuegosPorEstado('proximos');
 $juegosPasados = $juegoRepository->getJuegosPorEstado('pasados');
 
+
 ?>
 <div class="container-fluid px-4">
     <h1 class="mt-4">Juegos</h1>
     <div class="card mt-4 shadow-sm">
         <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-            <span class="fw-semibold"><i class="fa-solid fa-gamepad me-2"></i> Crear juegos</span>
+            <span class="fw-semibold"><i class="fas fa-solid fa-gamepad me-2"></i> Crear juegos</span>
         </div>
 
         <div class="card-body">
             <form action="<?= BASE_URL ?>admin/control/juego_controller.php" method="POST" class="row g-3 align-items-end">
-
                 <!-- Selector de Centro -->
                 <div class="col-md-4">
                     <label for="centro" class="form-label fw-semibold">Centro</label>
@@ -49,7 +49,7 @@ $juegosPasados = $juegoRepository->getJuegosPorEstado('pasados');
                 <div class="col-md-2 d-grid">
                     <input type="hidden" name="action" value="crearJuegosByCentro">
                     <button type="submit" class="btn btn-success fw-semibold">
-                        <i class="fa-solid fa-plus me-1"></i> Crear
+                        <i class="fas fa-solid fa-plus me-1"></i> Crear
                     </button>
                 </div>
 
@@ -58,7 +58,7 @@ $juegosPasados = $juegoRepository->getJuegosPorEstado('pasados');
     </div>
     <div class="card mt-3">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <span class="fw-semibold"><i class="fa-solid fa-gamepad me-1"></i> Juegos activos</span>
+            <span class="fw-semibold"><i class="fas fa-solid fa-gamepad me-1"></i> Juegos activos</span>
         </div>
         <div class="card-body p-0">
             <div class="table-responsive">
@@ -68,7 +68,8 @@ $juegosPasados = $juegoRepository->getJuegosPorEstado('pasados');
                             <th>Familia</th>
                             <th>Fecha inicio</th>
                             <th>Fecha fin</th>
-                            <th>Preguntas</th>
+                            <th class="text-center">Preguntas</th>
+                            <th class="text-center">Partidas jugadas</th>
                             <th class="text-end">Acciones</th>
                         </tr>
                     </thead>
@@ -79,12 +80,13 @@ $juegosPasados = $juegoRepository->getJuegosPorEstado('pasados');
                                     <td><?= htmlspecialchars($juego->getFamilia()->getNombre()) ?></td>
                                     <td><?= $juego->getFechaInicio()->format('Y-m-d') ?></td>
                                     <td><?= $juego->getFechaFin()->format('Y-m-d') ?></td>
-                                    <td><?= count($juego->getPreguntas()) ?></td>
+                                    <td class="text-center"><?= count($juego->getPreguntas()) ?></td>
+                                    <td class="text-center"><?= $juego->getPartidasJugadas() ?></td>
                                     <td class="text-end">
                                         <a href="<?= BASE_URL ?>admin/control/juego_controller.php?action=eliminar&id=<?= $juego->getId() ?>"
                                             class="btn btn-sm btn-outline-danger"
                                             onclick="return confirm('¿Seguro que deseas eliminar este juego?');">
-                                            <i class="fa-solid fa-trash"></i>
+                                            <i class="fas fa-solid fa-trash"></i>
                                         </a>
                                     </td>
                                 </tr>
@@ -92,7 +94,7 @@ $juegosPasados = $juegoRepository->getJuegosPorEstado('pasados');
                         <?php else: ?>
                             <tr>
                                 <td colspan="5" class="text-center text-muted py-4">
-                                    <i class="fa-solid fa-circle-info me-2"></i>
+                                    <i class="fas fa-solid fa-circle-info me-2"></i>
                                     No hay juegos activos en este momento.
                                 </td>
                             </tr>
@@ -106,7 +108,7 @@ $juegosPasados = $juegoRepository->getJuegosPorEstado('pasados');
     <div class="col-md-6">
         <div class="card h-100 shadow-sm">
             <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
-                <span class="fw-semibold"><i class="fa-solid fa-calendar me-1"></i> Próximos juegos</span>
+                <span class="fw-semibold"><i class="fas fa-solid fa-calendar me-1"></i> Próximos juegos</span>
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
@@ -117,7 +119,7 @@ $juegosPasados = $juegoRepository->getJuegosPorEstado('pasados');
                                 <th>Fecha inicio</th>
                                 <th>Fecha fin</th>
                                 <th>Preguntas</th>
-                                <th class="text-end">Acciones</th>
+                                <th class="text-center">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -127,16 +129,16 @@ $juegosPasados = $juegoRepository->getJuegosPorEstado('pasados');
                                         <td><?= htmlspecialchars($juego->getFamilia()->getNombre()) ?></td>
                                         <td><?= $juego->getFechaInicio()->format('Y-m-d') ?></td>
                                         <td><?= $juego->getFechaFin()->format('Y-m-d') ?></td>
-                                        <td><?= count($juego->getPreguntas()) ?></td>
+                                        <td class="text-center"><?= count($juego->getPreguntas()) ?></td>
                                         <td class="text-end">
                                             <a href="<?= BASE_URL ?>admin/control/juego_controller.php?action=editar&id=<?= $juego->getId() ?>"
                                                 class="btn btn-sm btn-outline-secondary">
-                                                <i class="fa-solid fa-pen"></i>
+                                                <i class="fas fa-solid fa-pen"></i>
                                             </a>
                                             <a href="<?= BASE_URL ?>admin/control/juego_controller.php?action=eliminar&id=<?= $juego->getId() ?>"
                                                 class="btn btn-sm btn-outline-danger"
                                                 onclick="return confirm('¿Seguro que deseas eliminar este juego?');">
-                                                <i class="fa-solid fa-trash"></i>
+                                                <i class="fas fa-solid fa-trash"></i>
                                             </a>
                                         </td>
                                     </tr>
@@ -144,7 +146,7 @@ $juegosPasados = $juegoRepository->getJuegosPorEstado('pasados');
                             <?php else: ?>
                                 <tr>
                                     <td colspan="5" class="text-center text-muted py-4">
-                                        <i class="fa-solid fa-circle-info me-2"></i>
+                                        <i class="fas fa-solid fa-circle-info me-2"></i>
                                         No hay juegos programados en este momento.
                                     </td>
                                 </tr>
@@ -159,7 +161,7 @@ $juegosPasados = $juegoRepository->getJuegosPorEstado('pasados');
     <div class="col-md-6">
         <div class="card h-100 shadow-sm">
             <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
-                <span class="fw-semibold"><i class="fa-solid fa-calendar me-1"></i> Juegos anteriores</span>
+                <span class="fw-semibold"><i class="fas fa-solid fa-calendar me-1"></i> Juegos anteriores</span>
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
@@ -170,6 +172,7 @@ $juegosPasados = $juegoRepository->getJuegosPorEstado('pasados');
                                 <th>Fecha inicio</th>
                                 <th>Fecha fin</th>
                                 <th>Preguntas</th>
+                                <th>Partidas jugadas</th>
                                 <th class="text-end">Acciones</th>
                             </tr>
                         </thead>
@@ -180,16 +183,13 @@ $juegosPasados = $juegoRepository->getJuegosPorEstado('pasados');
                                         <td><?= htmlspecialchars($juego->getFamilia()->getNombre()) ?></td>
                                         <td><?= $juego->getFechaInicio()->format('Y-m-d') ?></td>
                                         <td><?= $juego->getFechaFin()->format('Y-m-d') ?></td>
-                                        <td><?= count($juego->getPreguntas()) ?></td>
+                                        <td class="text-center"><?= count($juego->getPreguntas()) ?></td>
+                                        <td class="text-center"><?= $juego->getPartidasJugadas() ?></td>
                                         <td class="text-end">
-                                            <a href="<?= BASE_URL ?>admin/control/juego_controller.php?action=editar&id=<?= $juego->getId() ?>"
-                                                class="btn btn-sm btn-outline-secondary">
-                                                <i class="fa-solid fa-pen"></i>
-                                            </a>
                                             <a href="<?= BASE_URL ?>admin/control/juego_controller.php?action=eliminar&id=<?= $juego->getId() ?>"
                                                 class="btn btn-sm btn-outline-danger"
                                                 onclick="return confirm('¿Seguro que deseas eliminar este juego?');">
-                                                <i class="fa-solid fa-trash"></i>
+                                                <i class="fas fa-solid fa-trash"></i>
                                             </a>
                                         </td>
                                     </tr>
@@ -197,7 +197,7 @@ $juegosPasados = $juegoRepository->getJuegosPorEstado('pasados');
                             <?php else: ?>
                                 <tr>
                                     <td colspan="5" class="text-center text-muted py-4">
-                                        <i class="fa-solid fa-circle-info me-2"></i>
+                                        <i class="fas fa-solid fa-circle-info me-2"></i>
                                         No hay juegos anteriores
                                     </td>
                                 </tr>

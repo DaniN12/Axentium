@@ -1,553 +1,268 @@
 <?php
+$bd = new AccesoBD();
+$conexion = $bd->conexion;
+$usuariosRepo = new UsuarioRepository($conexion);
+$usuariosRegistrados = $usuariosRepo->getCountUsuarios();
+$usuariosActivos = 800;
+$partidasRepo = new PartidaRepository($conexion);
+$partidasJugadas = $partidasRepo->getCountPartidas();
+$rankingUsuarios = $partidasRepo->getAllPuntuaciones();
+$rankingCiclos = $partidasRepo->getRankingPorCiclos();
+$nuevosUsuariosSemana = $usuariosRepo->getCountNuevosUsuariosSemana();
+$partidasEstaSemana = $partidasRepo->getCountPartidasEstaSemana();
 
+$partidasPorSemana = [50, 75, 120, 90, 130, 150, 160];
+$porcentajePorFamilia = [
+    'Informática' => 80,
+    'Marketing' => 65,
+    'Administración' => 50,
+    'Diseño' => 70
+];
 ?>
-<div class="container-fluid px-4">
-    <h1 class="mt-4">Panel</h1>
 
-    <div class="row">
-        <div class="col-xl-3 col-md-6">
-            <div class="card bg-primary text-white mb-4">
-                <div class="card-body">Tarjeta primaria</div>
-                <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link" href="#">View Details</a>
-                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+<div class="container-fluid px-4">
+    <h1 class="mt-4 mb-4 text-secondary">Estadísticas</h1>
+
+    <!-- KPI Cards Minimalistas -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card h-100 border-primary shadow-sm rounded-3">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-primary">Usuarios Totales</h5>
+                    <p class="display-6 fw-bold mb-0"><?= $usuariosRegistrados ?></p>
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="card bg-warning text-white mb-4">
-                <div class="card-body">Tarjeta de advertencia</div>
-                <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link" href="#">View Details</a>
-                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+        <div class="col-md-3">
+            <div class="card h-100 border-primary shadow-sm rounded-3">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-primary">Nuevos Usuarios</h5>
+                    <p class="display-6 fw-bold mb-0"><?= $nuevosUsuariosSemana ?></p>
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="card bg-success text-white mb-4">
-                <div class="card-body">Tarjeta de éxito</div>
-                <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link" href="#">View Details</a>
-                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+        <div class="col-md-3">
+            <div class="card h-100 border-secondary shadow-sm rounded-3">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-secondary">Total Partidas Jugadas</h5>
+                    <p class="display-6 fw-bold mb-0"><?= $partidasJugadas ?></p>
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="card bg-danger text-white mb-4">
-                <div class="card-body">Tarjeta de peligro</div>
-                <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link" href="#">View Details</a>
-                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+        <div class="col-md-3">
+            <div class="card h-100 border-success shadow-sm rounded-3">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-success">Partidas Esta Semana</h5>
+                    <p class="display-6 fw-bold mb-0"><?= $partidasEstaSemana ?></p>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-xl-6">
-            <div class="card mb-4">
-                <div class="card-header">
-                    <i class="fas fa-chart-area me-1"></i>
-                    Ejemplo de gráfico de áreas
+
+    <!-- Gráficos Minimalistas -->
+    <div class="row mb-4">
+        <div class="col-lg-6 mb-4">
+            <div class="card h-100 shadow-sm rounded-3 border-light">
+                <div class="card-header bg-white fw-bold border-bottom">
+                    Partidas por Semana
                 </div>
-                <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+                <div class="card-body">
+                    <canvas id="lineChart"></canvas>
+                </div>
             </div>
         </div>
-        <div class="col-xl-6">
-            <div class="card mb-4">
-                <div class="card-header">
-                    <i class="fas fa-chart-bar me-1"></i>
-                    Ejemplo de gráfico de barras
+        <div class="col-lg-6 mb-4">
+            <div class="card h-100 shadow-sm rounded-3 border-light">
+                <div class="card-header bg-white fw-bold border-bottom">
+                    % Partidas por Familia
                 </div>
-                <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+                <div class="card-body">
+                    <canvas id="barChartFamily"></canvas>
+                </div>
             </div>
         </div>
     </div>
-    <div class="card mb-4">
-        <div class="card-header">
-            <i class="fas fa-table me-1"></i>
-            Ejemplo de tabla de datos
+
+    <!-- Rankings -->
+    <div class="row mb-4">
+        <div class="col-lg-6 mb-4">
+            <div class="card h-100 shadow-sm rounded-3 border-light">
+                <div class="card-header bg-white fw-bold border-bottom">
+                    Ranking Usuarios
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-hover mb-0 align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Posición</th>
+                                <th>Nombre</th>
+                                <th>Ciclo</th>
+                                <th>Puntuación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php 
+                            $pos = 1;
+                            foreach ($rankingUsuarios as $u): ?>
+                                <tr>
+                                    <td><?= $pos++ ?></td>
+                                    <td>
+                                        <strong><?= $u['usuario'] ?></strong>
+                                    </td>
+                                    <td><span class="badge text-bg-secondary"><?= $u['ciclo'] ?></span></td>
+                                    <td><?= $u['puntuacion'] ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
-            <table id="datatablesSimple">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Posición</th>
-                        <th>Oficina</th>
-                        <th>Edad</th>
-                        <th>Fecha de inicio</th>
-                        <th>Salario</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Posición</th>
-                        <th>Oficina</th>
-                        <th>Edad</th>
-                        <th>Fecha de inicio</th>
-                        <th>Salario</th>
-                    </tr>
-                </tfoot>
-                <tbody>
-                    <tr>
-                        <td>Tiger Nixon</td>
-                        <td>System Architect</td>
-                        <td>Edinburgh</td>
-                        <td>61</td>
-                        <td>25/04/2011</td>
-                        <td>320,800€</td>
-                    </tr>
-                    <tr>
-                        <td>Garrett Winters</td>
-                        <td>Accountant</td>
-                        <td>Tokyo</td>
-                        <td>63</td>
-                        <td>25/07/2011</td>
-                        <td>170,750€</td>
-                    </tr>
-                    <tr>
-                        <td>Ashton Cox</td>
-                        <td>Junior Technical Author</td>
-                        <td>San Francisco</td>
-                        <td>66</td>
-                        <td>12/01/2009</td>
-                        <td>86,000€</td>
-                    </tr>
-                    <tr>
-                        <td>Cedric Kelly</td>
-                        <td>Senior Javascript Developer</td>
-                        <td>Edinburgh</td>
-                        <td>22</td>
-                        <td>29/03/2012</td>
-                        <td>433,060€</td>
-                    </tr>
-                    <tr>
-                        <td>Airi Satou</td>
-                        <td>Accountant</td>
-                        <td>Tokyo</td>
-                        <td>33</td>
-                        <td>28/11/2008</td>
-                        <td>162,700€</td>
-                    </tr>
-                    <tr>
-                        <td>Brielle Williamson</td>
-                        <td>Integration Specialist</td>
-                        <td>New York</td>
-                        <td>61</td>
-                        <td>02/12/2012</td>
-                        <td>372,000€</td>
-                    </tr>
-                    <tr>
-                        <td>Herrod Chandler</td>
-                        <td>Sales Assistant</td>
-                        <td>San Francisco</td>
-                        <td>59</td>
-                        <td>06/08/2012</td>
-                        <td>137,500€</td>
-                    </tr>
-                    <tr>
-                        <td>Rhona Davidson</td>
-                        <td>Integration Specialist</td>
-                        <td>Tokyo</td>
-                        <td>55</td>
-                        <td>14/10/2010</td>
-                        <td>327,900€</td>
-                    </tr>
-                    <tr>
-                        <td>Colleen Hurst</td>
-                        <td>Javascript Developer</td>
-                        <td>San Francisco</td>
-                        <td>39</td>
-                        <td>15/09/2009</td>
-                        <td>205,500€</td>
-                    </tr>
-                    <tr>
-                        <td>Sonya Frost</td>
-                        <td>Software Engineer</td>
-                        <td>Edinburgh</td>
-                        <td>23</td>
-                        <td>13/12/2008</td>
-                        <td>103,600€</td>
-                    </tr>
-                    <tr>
-                        <td>Jena Gaines</td>
-                        <td>Office Manager</td>
-                        <td>London</td>
-                        <td>30</td>
-                        <td>19/12/2008</td>
-                        <td>90,560€</td>
-                    </tr>
-                    <tr>
-                        <td>Quinn Flynn</td>
-                        <td>Support Lead</td>
-                        <td>Edinburgh</td>
-                        <td>22</td>
-                        <td>03/03/2013</td>
-                        <td>342,000€</td>
-                    </tr>
-                    <tr>
-                        <td>Charde Marshall</td>
-                        <td>Regional Director</td>
-                        <td>San Francisco</td>
-                        <td>36</td>
-                        <td>16/10/2008</td>
-                        <td>470,600€</td>
-                    </tr>
-                    <tr>
-                        <td>Haley Kennedy</td>
-                        <td>Senior Marketing Designer</td>
-                        <td>London</td>
-                        <td>43</td>
-                        <td>18/12/2012</td>
-                        <td>313,500€</td>
-                    </tr>
-                    <tr>
-                        <td>Tatyana Fitzpatrick</td>
-                        <td>Regional Director</td>
-                        <td>London</td>
-                        <td>19</td>
-                        <td>17/03/2010</td>
-                        <td>385,750€</td>
-                    </tr>
-                    <tr>
-                        <td>Michael Silva</td>
-                        <td>Marketing Designer</td>
-                        <td>London</td>
-                        <td>66</td>
-                        <td>27/11/2012</td>
-                        <td>198,500€</td>
-                    </tr>
-                    <tr>
-                        <td>Paul Byrd</td>
-                        <td>Chief Financial Officer (CFO)</td>
-                        <td>New York</td>
-                        <td>64</td>
-                        <td>09/06/2010</td>
-                        <td>725,000€</td>
-                    </tr>
-                    <tr>
-                        <td>Gloria Little</td>
-                        <td>Systems Administrator</td>
-                        <td>New York</td>
-                        <td>59</td>
-                        <td>10/04/2009</td>
-                        <td>237,500€</td>
-                    </tr>
-                    <tr>
-                        <td>Bradley Greer</td>
-                        <td>Software Engineer</td>
-                        <td>London</td>
-                        <td>41</td>
-                        <td>13/10/2012</td>
-                        <td>132,000€</td>
-                    </tr>
-                    <tr>
-                        <td>Dai Rios</td>
-                        <td>Personnel Lead</td>
-                        <td>Edinburgh</td>
-                        <td>35</td>
-                        <td>26/09/2012</td>
-                        <td>217,500€</td>
-                    </tr>
-                    <tr>
-                        <td>Jenette Caldwell</td>
-                        <td>Development Lead</td>
-                        <td>New York</td>
-                        <td>30</td>
-                        <td>03/09/2011</td>
-                        <td>345,000€</td>
-                    </tr>
-                    <tr>
-                        <td>Yuri Berry</td>
-                        <td>Chief Marketing Officer (CMO)</td>
-                        <td>New York</td>
-                        <td>40</td>
-                        <td>25/06/2009</td>
-                        <td>675,000€</td>
-                    </tr>
-                    <tr>
-                        <td>Caesar Vance</td>
-                        <td>Pre-Sales Support</td>
-                        <td>New York</td>
-                        <td>21</td>
-                        <td>12/12/2011</td>
-                        <td>106,450€</td>
-                    </tr>
-                    <tr>
-                        <td>Doris Wilder</td>
-                        <td>Sales Assistant</td>
-                        <td>Sidney</td>
-                        <td>23</td>
-                        <td>20/09/2010</td>
-                        <td>85,600€</td>
-                    </tr>
-                    <tr>
-                        <td>Angelica Ramos</td>
-                        <td>Chief Executive Officer (CEO)</td>
-                        <td>London</td>
-                        <td>47</td>
-                        <td>09/10/2009</td>
-                        <td>1,200,000€</td>
-                    </tr>
-                    <tr>
-                        <td>Gavin Joyce</td>
-                        <td>Developer</td>
-                        <td>Edinburgh</td>
-                        <td>42</td>
-                        <td>22/12/2010</td>
-                        <td>92,575€</td>
-                    </tr>
-                    <tr>
-                        <td>Jennifer Chang</td>
-                        <td>Regional Director</td>
-                        <td>Singapore</td>
-                        <td>28</td>
-                        <td>14/11/2010</td>
-                        <td>357,650€</td>
-                    </tr>
-                    <tr>
-                        <td>Brenden Wagner</td>
-                        <td>Software Engineer</td>
-                        <td>San Francisco</td>
-                        <td>28</td>
-                        <td>07/06/2011</td>
-                        <td>206,850€</td>
-                    </tr>
-                    <tr>
-                        <td>Fiona Green</td>
-                        <td>Chief Operating Officer (COO)</td>
-                        <td>San Francisco</td>
-                        <td>48</td>
-                        <td>11/03/2010</td>
-                        <td>800€</td>
-                    </tr>
-                    <tr>
-                        <td>Shou Itou</td>
-                        <td>Regional Marketing</td>
-                        <td>Tokyo</td>
-                        <td>20</td>
-                        <td>14/08/2011</td>
-                        <td>163,000€</td>
-                    </tr>
-                    <tr>
-                        <td>Michelle House</td>
-                        <td>Integration Specialist</td>
-                        <td>Sidney</td>
-                        <td>37</td>
-                        <td>02/06/2011</td>
-                        <td>95,400€</td>
-                    </tr>
-                    <tr>
-                        <td>Suki Burks</td>
-                        <td>Developer</td>
-                        <td>London</td>
-                        <td>53</td>
-                        <td>22/10/2009</td>
-                        <td>114,500€</td>
-                    </tr>
-                    <tr>
-                        <td>Prescott Bartlett</td>
-                        <td>Technical Author</td>
-                        <td>London</td>
-                        <td>27</td>
-                        <td>07/05/2011</td>
-                        <td>145,000€</td>
-                    </tr>
-                    <tr>
-                        <td>Gavin Cortez</td>
-                        <td>Team Leader</td>
-                        <td>San Francisco</td>
-                        <td>22</td>
-                        <td>26/10/2008</td>
-                        <td>235,500€</td>
-                    </tr>
-                    <tr>
-                        <td>Martena Mccray</td>
-                        <td>Post-Sales support</td>
-                        <td>Edinburgh</td>
-                        <td>46</td>
-                        <td>09/03/2011</td>
-                        <td>324,050€</td>
-                    </tr>
-                    <tr>
-                        <td>Unity Butler</td>
-                        <td>Marketing Designer</td>
-                        <td>San Francisco</td>
-                        <td>47</td>
-                        <td>09/12/2009</td>
-                        <td>85,675€</td>
-                    </tr>
-                    <tr>
-                        <td>Howard Hatfield</td>
-                        <td>Office Manager</td>
-                        <td>San Francisco</td>
-                        <td>51</td>
-                        <td>16/12/2008</td>
-                        <td>164,500€</td>
-                    </tr>
-                    <tr>
-                        <td>Hope Fuentes</td>
-                        <td>Secretary</td>
-                        <td>San Francisco</td>
-                        <td>41</td>
-                        <td>12/02/2010</td>
-                        <td>109,850€</td>
-                    </tr>
-                    <tr>
-                        <td>Vivian Harrell</td>
-                        <td>Financial Controller</td>
-                        <td>San Francisco</td>
-                        <td>62</td>
-                        <td>14/02/2009</td>
-                        <td>452,500€</td>
-                    </tr>
-                    <tr>
-                        <td>Timothy Mooney</td>
-                        <td>Office Manager</td>
-                        <td>London</td>
-                        <td>37</td>
-                        <td>11/12/2008</td>
-                        <td>136,200€</td>
-                    </tr>
-                    <tr>
-                        <td>Jackson Bradshaw</td>
-                        <td>Director</td>
-                        <td>New York</td>
-                        <td>65</td>
-                        <td>26/09/2008</td>
-                        <td>645,750€</td>
-                    </tr>
-                    <tr>
-                        <td>Olivia Liang</td>
-                        <td>Support Engineer</td>
-                        <td>Singapore</td>
-                        <td>64</td>
-                        <td>03/02/2011</td>
-                        <td>234,500€</td>
-                    </tr>
-                    <tr>
-                        <td>Bruno Nash</td>
-                        <td>Software Engineer</td>
-                        <td>London</td>
-                        <td>38</td>
-                        <td>03/05/2011</td>
-                        <td>163,500€</td>
-                    </tr>
-                    <tr>
-                        <td>Sakura Yamamoto</td>
-                        <td>Support Engineer</td>
-                        <td>Tokyo</td>
-                        <td>37</td>
-                        <td>19/08/2009</td>
-                        <td>139,575€</td>
-                    </tr>
-                    <tr>
-                        <td>Thor Walton</td>
-                        <td>Developer</td>
-                        <td>New York</td>
-                        <td>61</td>
-                        <td>11/08/2013</td>
-                        <td>98,540€</td>
-                    </tr>
-                    <tr>
-                        <td>Finn Camacho</td>
-                        <td>Support Engineer</td>
-                        <td>San Francisco</td>
-                        <td>47</td>
-                        <td>07/07/2009</td>
-                        <td>87,500€</td>
-                    </tr>
-                    <tr>
-                        <td>Serge Baldwin</td>
-                        <td>Data Coordinator</td>
-                        <td>Singapore</td>
-                        <td>64</td>
-                        <td>09/04/2012</td>
-                        <td>138,575€</td>
-                    </tr>
-                    <tr>
-                        <td>Zenaida Frank</td>
-                        <td>Software Engineer</td>
-                        <td>New York</td>
-                        <td>63</td>
-                        <td>04/01/2010</td>
-                        <td>125,250€</td>
-                    </tr>
-                    <tr>
-                        <td>Zorita Serrano</td>
-                        <td>Software Engineer</td>
-                        <td>San Francisco</td>
-                        <td>56</td>
-                        <td>01/06/2012</td>
-                        <td>115,000€</td>
-                    </tr>
-                    <tr>
-                        <td>Jennifer Acosta</td>
-                        <td>Junior Javascript Developer</td>
-                        <td>Edinburgh</td>
-                        <td>43</td>
-                        <td>01/02/2013</td>
-                        <td>75,650€</td>
-                    </tr>
-                    <tr>
-                        <td>Cara Stevens</td>
-                        <td>Sales Assistant</td>
-                        <td>New York</td>
-                        <td>46</td>
-                        <td>06/12/2011</td>
-                        <td>145,600€</td>
-                    </tr>
-                    <tr>
-                        <td>Hermione Butler</td>
-                        <td>Regional Director</td>
-                        <td>London</td>
-                        <td>47</td>
-                        <td>21/03/2011</td>
-                        <td>356,250€</td>
-                    </tr>
-                    <tr>
-                        <td>Lael Greer</td>
-                        <td>Systems Administrator</td>
-                        <td>London</td>
-                        <td>21</td>
-                        <td>27/02/2009</td>
-                        <td>103,500€</td>
-                    </tr>
-                    <tr>
-                        <td>Jonas Alexander</td>
-                        <td>Developer</td>
-                        <td>San Francisco</td>
-                        <td>30</td>
-                        <td>14/07/2010</td>
-                        <td>86,500€</td>
-                    </tr>
-                    <tr>
-                        <td>Shad Decker</td>
-                        <td>Regional Director</td>
-                        <td>Edinburgh</td>
-                        <td>51</td>
-                        <td>13/11/2008</td>
-                        <td>183,000€</td>
-                    </tr>
-                    <tr>
-                        <td>Michael Bruce</td>
-                        <td>Javascript Developer</td>
-                        <td>Singapore</td>
-                        <td>29</td>
-                        <td>27/06/2011</td>
-                        <td>183,000€</td>
-                    </tr>
-                    <tr>
-                        <td>Donna Snider</td>
-                        <td>Customer Support</td>
-                        <td>New York</td>
-                        <td>27</td>
-                        <td>25/01/2011</td>
-                        <td>112,000€</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="col-lg-6 mb-4">
+            <div class="card h-100 shadow-sm rounded-3 border-light">
+                <div class="card-header bg-white fw-bold border-bottom">
+                    Ranking Ciclos
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-hover mb-0 align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Posición</th>
+                                <th>Ciclo</th>
+                                <th>Puntuación Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php 
+                             $pos = 1;
+                             foreach ($rankingCiclos as $c): ?>
+                                <tr>
+                                    <td><?= $pos++ ?></td>
+                                    <td><?= $c['ciclo'] ?></td>
+                                    <td><?= $c['puntosTotales'] ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctxLine = document.getElementById('lineChart').getContext('2d');
+    const lineChart = new Chart(ctxLine, {
+        type: 'line',
+        data: {
+            labels: ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4', 'Semana 5', 'Semana 6', 'Semana 7'],
+            datasets: [{
+                label: 'Partidas Jugadas',
+                data: <?= json_encode($partidasPorSemana) ?>,
+                borderColor: '#0d6efd',
+                backgroundColor: 'rgba(13,110,253,0.1)',
+                fill: true,
+                tension: 0.3,
+                pointBackgroundColor: '#0d6efd',
+                pointRadius: 5
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    const ctxBarFamily = document.getElementById('barChartFamily').getContext('2d');
+
+    // Datos de ejemplo: 4 familias x 7 semanas
+    const semanas = ['Semana 1', 'Semana 2', 'Semana 3'];
+    const familias = ['Informática', 'Marketing', 'Administración', 'Diseño'];
+
+    // Porcentajes por semana (fila = familia, columna = semana)
+    const datosFamilias = {
+        'Informática': [80, 75, 90, 85, 92, 88, 95],
+        'Marketing': [65, 70, 60, 72, 68, 75, 70],
+        'Administración': [50, 55, 52, 60, 58, 54, 57],
+        'Diseño': [70, 65, 75, 68, 72, 70, 74]
+    };
+    const tonosAzul = [
+        'rgba(13,110,253,0.9)',
+        'rgba(13,110,253,0.7)',
+        'rgba(13,110,253,0.5)',
+        'rgba(13,110,253,0.3)'
+    ];
+    // Construir datasets dinámicamente
+    const datasets = familias.map((familia, index) => ({
+        label: familia,
+        data: datosFamilias[familia],
+        backgroundColor: tonosAzul[index],
+        borderRadius: 4
+    }));
+
+    const barChartFamily = new Chart(ctxBarFamily, {
+        type: 'bar',
+        data: {
+            labels: semanas,
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top'
+                },
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: 'Porcentaje (%)'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Semana'
+                    },
+                    stacked: false
+                }
+            }
+        }
+    });
+</script>
+
+<style>
+    /* Minimalista y elegante */
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f8f9fa;
+        color: #333;
+    }
+
+    .card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: rgba(0, 123, 255, 0.05);
+    }
+</style>

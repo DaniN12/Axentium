@@ -107,6 +107,13 @@ class UsuarioRepository
         }
         return null;
     }
+    function getCountUsuarios()
+    {
+        $sql = "SELECT COUNT(id) as total FROM usuarios;";
+        $result = mysqli_query($this->conexion, $sql);
+        $fila = mysqli_fetch_assoc($result);
+        return $fila['total'];
+    }
     function getAllUsuarios()
     {
         $sql = "SELECT u.id, u.username, u.email, u.rolId, r.nombre AS rol,
@@ -135,6 +142,47 @@ class UsuarioRepository
             }
         }
         return $usuarios;
+    }
+    function getCountNuevosUsuariosSemana()
+    {
+        $sql = "SELECT COUNT(id) AS total
+            FROM usuarios
+            WHERE YEARWEEK(fecha_registro, 1) = YEARWEEK(NOW(), 1)";
+
+        $result = mysqli_query($this->conexion, $sql);
+        $fila = mysqli_fetch_assoc($result);
+        return $fila['total'];
+    }
+    function eliminarUsuario($id)
+    {
+        $idSanitized = mysqli_real_escape_string($this->conexion, (int)$id);
+        $sql = "DELETE FROM usuarios WHERE id='$idSanitized'";
+        return mysqli_query($this->conexion, $sql);
+    }
+    function editarUsuario($id, $username, $email, $pass = null, $centroId, $cicloId, $rolId)
+    {
+        $idSanitized = mysqli_real_escape_string($this->conexion, (int)$id);
+        $usernameSanitized = mysqli_real_escape_string($this->conexion, $username);
+        $emailSanitized = mysqli_real_escape_string($this->conexion, $email);
+        $centroSanitized = mysqli_real_escape_string($this->conexion, (int)$centroId);
+        $cicloSanitized = mysqli_real_escape_string($this->conexion, (int)$cicloId);
+        $rolSanitized = mysqli_real_escape_string($this->conexion, (int)$rolId);
+
+        $sql = "UPDATE usuarios SET 
+                    username='$usernameSanitized', 
+                    email='$emailSanitized', 
+                    centroId='$centroSanitized', 
+                    cicloId='$cicloSanitized', 
+                    rolId='$rolSanitized'";
+
+        if ($pass !== null && $pass !== '') {
+            $passHashed = md5($pass);
+            $sql .= ", password='$passHashed'";
+        }
+
+        $sql .= " WHERE id='$idSanitized'";
+
+        return mysqli_query($this->conexion, $sql);
     }
 }
 ?>

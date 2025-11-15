@@ -1,5 +1,6 @@
 <?php
-$usuarioRepository = new UsuarioRepository();
+$bd = new AccesoBD();
+$usuarioRepository = new UsuarioRepository($bd->conexion);
 
 $totalUsuarios = $usuarioRepository->getAllUsuarios();
 ?>
@@ -36,15 +37,18 @@ $totalUsuarios = $usuarioRepository->getAllUsuarios();
                                     <td><?= htmlspecialchars($usuario->getCiclo()->getNombre()) ?></td>
                                     <td><?= htmlspecialchars($usuario->getCentro()->getNombre()) ?></td>
                                     <td class="text-end">
-                                        <a href="<?= BASE_URL ?>admin/control/usuario_controller.php?action=editar&id=<?= $usuario->getId() ?>"
+                                        <?php if ($usuario->getRol()->getRolId() == UsuarioRepository::ROL_USUARIO) { ?>
+                                        <!-- TO-DO: Implementar edición -->
+                                        <!-- <a href="<?= BASE_URL ?>admin/control/usuario_controller.php?action=editar&id=<?= $usuario->getId() ?>"
                                            class="btn btn-sm btn-outline-secondary">
                                             <i class="fa-solid fa-pen"></i>
-                                        </a>
+                                        </a> -->
                                         <a href="<?= BASE_URL ?>admin/control/usuario_controller.php?action=eliminar&id=<?= $usuario->getId() ?>"
                                            class="btn btn-sm btn-outline-danger"
                                            onclick="return confirm('¿Seguro que deseas eliminar este usuario?');">
                                             <i class="fa-solid fa-trash"></i>
                                         </a>
+                                        <?php } ?>
                                     </td>
                                 </tr>
                             <?php }; ?>

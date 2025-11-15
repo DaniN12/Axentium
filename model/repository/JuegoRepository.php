@@ -119,10 +119,13 @@ class JuegoRepository
 
         $sql = "SELECT 
                 j.id, j.activo, j.fecha_inicio, j.fecha_fin, 
-                f.id AS familiaId, f.nombre AS familiaNombre
+                f.id AS familiaId, f.nombre AS familiaNombre,
+                COUNT(p.puntuacion) AS partidas_jugadas
             FROM juegos j
             INNER JOIN familias f ON j.familiaId = f.id
+            LEFT JOIN partidas p ON p.juegoId = j.id
             WHERE $where
+            GROUP BY j.id
             ORDER BY j.fecha_inicio ASC";
 
         $result = mysqli_query($this->conexion, $sql);
@@ -141,7 +144,7 @@ class JuegoRepository
                     $fechaFin,
                     $familia
                 );
-
+                $juego->setPartidasJugadas($fila['partidas_jugadas']);
                 $preguntas = $this->getPreguntasByJuego($juego->getId());
                 $juego->setPreguntas($preguntas);
 
@@ -152,114 +155,114 @@ class JuegoRepository
         return $juegos;
     }
 
-    function getJuegosActivos()
-    {
-        $sql = "SELECT 
-                j.id, j.activo, j.fecha_inicio, j.fecha_fin, 
-                f.id AS familiaId, f.nombre AS familiaNombre
-            FROM juegos j
-            INNER JOIN familias f ON j.familiaId = f.id
-            WHERE NOW() BETWEEN j.fecha_inicio AND j.fecha_fin;";
+    // function getJuegosActivos()
+    // {
+    //     $sql = "SELECT 
+    //             j.id, j.activo, j.fecha_inicio, j.fecha_fin, 
+    //             f.id AS familiaId, f.nombre AS familiaNombre
+    //         FROM juegos j
+    //         INNER JOIN familias f ON j.familiaId = f.id
+    //         WHERE NOW() BETWEEN j.fecha_inicio AND j.fecha_fin;";
 
-        $result = mysqli_query($this->conexion, $sql);
-        $juegos = [];
+    //     $result = mysqli_query($this->conexion, $sql);
+    //     $juegos = [];
 
-        if ($result && mysqli_num_rows($result) > 0) {
-            while ($fila = mysqli_fetch_assoc($result)) {
-                $fechaInicio = new DateTime($fila['fecha_inicio']);
-                $fechaFin = new DateTime($fila['fecha_fin']);
-                $familia = new Familia($fila['familiaId'], $fila['familiaNombre']);
+    //     if ($result && mysqli_num_rows($result) > 0) {
+    //         while ($fila = mysqli_fetch_assoc($result)) {
+    //             $fechaInicio = new DateTime($fila['fecha_inicio']);
+    //             $fechaFin = new DateTime($fila['fecha_fin']);
+    //             $familia = new Familia($fila['familiaId'], $fila['familiaNombre']);
 
-                $juego = new Juego(
-                    $fila['id'],
-                    $fila['activo'],
-                    $fechaInicio,
-                    $fechaFin,
-                    $familia
-                );
+    //             $juego = new Juego(
+    //                 $fila['id'],
+    //                 $fila['activo'],
+    //                 $fechaInicio,
+    //                 $fechaFin,
+    //                 $familia
+    //             );
 
-                $preguntas = $this->getPreguntasByJuego($juego->getId());
-                $juego->setPreguntas($preguntas);
+    //             $preguntas = $this->getPreguntasByJuego($juego->getId());
+    //             $juego->setPreguntas($preguntas);
 
-                $juegos[] = $juego;
-            }
-        }
+    //             $juegos[] = $juego;
+    //         }
+    //     }
 
-        return $juegos;
-    }
+    //     return $juegos;
+    // }
 
-    function getProximosJuegos()
-    {
+    // function getProximosJuegos()
+    // {
 
-        $sql = "SELECT 
-                j.id, j.activo, j.fecha_inicio, j.fecha_fin, 
-                f.id AS familiaId, f.nombre AS familiaNombre
-            FROM juegos j
-            INNER JOIN familias f ON j.familiaId = f.id
-            WHERE NOW() < j.fecha_inicio;";
+    //     $sql = "SELECT 
+    //             j.id, j.activo, j.fecha_inicio, j.fecha_fin, 
+    //             f.id AS familiaId, f.nombre AS familiaNombre
+    //         FROM juegos j
+    //         INNER JOIN familias f ON j.familiaId = f.id
+    //         WHERE NOW() < j.fecha_inicio;";
 
-        $result = mysqli_query($this->conexion, $sql);
-        $juegos = [];
+    //     $result = mysqli_query($this->conexion, $sql);
+    //     $juegos = [];
 
-        if ($result && mysqli_num_rows($result) > 0) {
-            while ($fila = mysqli_fetch_assoc($result)) {
-                $fechaInicio = new DateTime($fila['fecha_inicio']);
-                $fechaFin = new DateTime($fila['fecha_fin']);
-                $familia = new Familia($fila['familiaId'], $fila['familiaNombre']);
+    //     if ($result && mysqli_num_rows($result) > 0) {
+    //         while ($fila = mysqli_fetch_assoc($result)) {
+    //             $fechaInicio = new DateTime($fila['fecha_inicio']);
+    //             $fechaFin = new DateTime($fila['fecha_fin']);
+    //             $familia = new Familia($fila['familiaId'], $fila['familiaNombre']);
 
-                $juego = new Juego(
-                    $fila['id'],
-                    $fila['activo'],
-                    $fechaInicio,
-                    $fechaFin,
-                    $familia
-                );
+    //             $juego = new Juego(
+    //                 $fila['id'],
+    //                 $fila['activo'],
+    //                 $fechaInicio,
+    //                 $fechaFin,
+    //                 $familia
+    //             );
 
-                $preguntas = $this->getPreguntasByJuego($juego->getId());
-                $juego->setPreguntas($preguntas);
+    //             $preguntas = $this->getPreguntasByJuego($juego->getId());
+    //             $juego->setPreguntas($preguntas);
 
-                $juegos[] = $juego;
-            }
-        }
+    //             $juegos[] = $juego;
+    //         }
+    //     }
 
-        return $juegos;
-    }
+    //     return $juegos;
+    // }
 
-    function getJuegosPasados()
-    {
-        $sql = "SELECT 
-                j.id, j.activo, j.fecha_inicio, j.fecha_fin, 
-                f.id AS familiaId, f.nombre AS familiaNombre
-            FROM juegos j
-            INNER JOIN familias f ON j.familiaId = f.id
-            WHERE NOW() > j.fecha_fin;";
+    // function getJuegosPasados()
+    // {
+    //     $sql = "SELECT 
+    //             j.id, j.activo, j.fecha_inicio, j.fecha_fin, 
+    //             f.id AS familiaId, f.nombre AS familiaNombre
+    //         FROM juegos j
+    //         INNER JOIN familias f ON j.familiaId = f.id
+    //         WHERE NOW() > j.fecha_fin;";
 
-        $result = mysqli_query($this->conexion, $sql);
-        $juegos = [];
+    //     $result = mysqli_query($this->conexion, $sql);
+    //     $juegos = [];
 
-        if ($result && mysqli_num_rows($result) > 0) {
-            while ($fila = mysqli_fetch_assoc($result)) {
-                $fechaInicio = new DateTime($fila['fecha_inicio']);
-                $fechaFin = new DateTime($fila['fecha_fin']);
-                $familia = new Familia($fila['familiaId'], $fila['familiaNombre']);
+    //     if ($result && mysqli_num_rows($result) > 0) {
+    //         while ($fila = mysqli_fetch_assoc($result)) {
+    //             $fechaInicio = new DateTime($fila['fecha_inicio']);
+    //             $fechaFin = new DateTime($fila['fecha_fin']);
+    //             $familia = new Familia($fila['familiaId'], $fila['familiaNombre']);
 
-                $juego = new Juego(
-                    $fila['id'],
-                    $fila['activo'],
-                    $fechaInicio,
-                    $fechaFin,
-                    $familia
-                );
+    //             $juego = new Juego(
+    //                 $fila['id'],
+    //                 $fila['activo'],
+    //                 $fechaInicio,
+    //                 $fechaFin,
+    //                 $familia
+    //             );
 
-                $preguntas = $this->getPreguntasByJuego($juego->getId());
-                $juego->setPreguntas($preguntas);
+    //             $preguntas = $this->getPreguntasByJuego($juego->getId());
+    //             $juego->setPreguntas($preguntas);
 
-                $juegos[] = $juego;
-            }
-        }
+    //             $juegos[] = $juego;
+    //         }
+    //     }
 
-        return $juegos;
-    }
+    //     return $juegos;
+    // }
 
     function getPreguntasByJuego($juegoId)
     {

@@ -12,7 +12,7 @@ foreach ($ranking as $index => $fila) {
 }
 ?>
 <div class="container py-3">
-    <h1 class="h4 mb-3"><i class="fa-solid fa-trophy me-2"></i>Ranking</h1>
+    <h1 class="h4 mb-3"><i class="fas fa-solid fa-trophy me-2"></i>Ranking</h1>
     <?php if ($miPosicion){ ?>
         <div class="alert alert-info d-flex justify-content-between align-items-center shadow-sm rounded-3 mb-3">
             <div><strong>Tu posición:</strong> #<?= $miPosicion ?></div>

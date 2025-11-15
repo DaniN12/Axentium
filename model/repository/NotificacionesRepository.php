@@ -17,7 +17,7 @@ class NotificacionesRepository
 
         $notificaciones = [];
         while ($row = mysqli_fetch_assoc($result)) {
-            $notificaciones[] = new Notificacion($row['id'], $row['texto']);
+            $notificaciones[] = new Notificacion($row['id'], $row['texto'], $row['fecha']);
         }
 
         return $notificaciones;
@@ -26,7 +26,7 @@ class NotificacionesRepository
     public function add($texto)
     {
         $texto = mysqli_real_escape_string($this->conexion, $texto);
-        $sql = "INSERT INTO notificaciones (texto) VALUES ('$texto')";
+        $sql = "INSERT INTO notificaciones (texto, fecha) VALUES ('$texto', NOW())";
         mysqli_query($this->conexion, $sql);
     }
 

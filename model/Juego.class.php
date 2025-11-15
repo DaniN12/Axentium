@@ -8,6 +8,7 @@ class Juego
     private $fecha_fin;
     private $familia;
     private $preguntas = [];
+    private $partidas_jugadas;
 
     public function __construct($id, $activo, Datetime $fecha_inicio, Datetime $fecha_fin, Familia $familia)
     {
@@ -54,5 +55,13 @@ class Juego
     public function addPregunta(Pregunta $pregunta)
     {
         $this->preguntas[] = $pregunta;
+    }
+        public function getPartidasJugadas()
+    {
+        return $this->partidas_jugadas;
+    }
+    public function setPartidasJugadas($partidas_jugadas)
+    {
+        $this->partidas_jugadas = $partidas_jugadas;
     }
 }

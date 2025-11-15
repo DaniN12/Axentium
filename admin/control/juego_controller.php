@@ -15,10 +15,8 @@ $preguntaRepo = new PreguntaRepository($conexion);
 $centroRepo = new CentroRepository($conexion);
 $juegoRepo = new JuegoRepository($conexion);
 
-if ($action == 'crearJuegosByCentro'  && $centroId && $fecha_inicio && $fecha_fin) {
 
-    $bd = new AccesoBD();
-    $conexion = $bd->conexion;
+if ($action == 'crearJuegosByCentro'  && $centroId && $fecha_inicio && $fecha_fin) {
 
     //0. Actualizar juegos activos
     $juegoRepo->actualizarJuegosActivos();

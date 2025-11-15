@@ -96,7 +96,7 @@ session_start();
 
             <a href="index.php?s=notificaciones_user">
                 <i class="fas fa-bell"></i>
-                <span class="d-block">Notificaciones</span>
+                <span class="d-block">Avisos</span>
             </a>
         </nav>
     <?php } ?>

@@ -21,7 +21,7 @@ foreach ($preguntas as $p) {
 ?>
 <!-- <div class="container py-3">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h1 class="h4 mb-0"><i class="fa-solid fa-gamepad me-2"></i>Juego semanal</h1>
+        <h1 class="h4 mb-0"><i class="fas fas fa-solid fa-gamepad me-2"></i>Juego semanal</h1>
         <span class="badge text-bg-secondary">00:30</span>
     </div>
 

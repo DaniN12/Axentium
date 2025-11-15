@@ -7,6 +7,7 @@ require_once(BASE_PATH . "/model/Pregunta.class.php");
 class PreguntaRepository
 {
     private $conexion;
+    const PREGUNTAS_POR_JUEGO = 10;
 
     function __construct($conexion)
     {
@@ -15,11 +16,12 @@ class PreguntaRepository
 
     function seleccionarPreguntasGenerales()
     {
+        $limit = (self::PREGUNTAS_POR_JUEGO)/2;
         $sql = "SELECT id, pregunta, opcion1, opcion2, opcion3, correcta, usada, img, familiaId, categoriaId
                 FROM preguntas
                 WHERE familiaId is null AND usada = 0
                 ORDER BY RAND()
-                LIMIT 3;
+                LIMIT $limit;
                 ";
         $result = mysqli_query($this->conexion, $sql);
 
@@ -55,11 +57,12 @@ class PreguntaRepository
 
     function seleccionarPreguntas($familiaId)
     {
+        $limit = (self::PREGUNTAS_POR_JUEGO)/2;
         $sql = "SELECT id, pregunta, opcion1, opcion2, opcion3, correcta, usada, img, familiaId, categoriaId
                 FROM preguntas
                 WHERE familiaId = '$familiaId' AND usada = 0
                 ORDER BY RAND()
-                LIMIT 3;
+                LIMIT $limit;
                 ";
         $result = mysqli_query($this->conexion, $sql);
 
