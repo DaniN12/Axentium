@@ -27,7 +27,7 @@ class PartidaRepository
             u.id AS usuarioId, 
             u.username AS usuario, 
              c.nombre AS ciclo,
-            MAX(p.puntuacion) AS puntuacion
+            SUM(p.puntuacion) AS puntuacion
         FROM partidas p
         INNER JOIN usuarios u ON p.usuarioId = u.id
         INNER JOIN ciclos c ON u.cicloId = c.id

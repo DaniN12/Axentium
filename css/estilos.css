@@ -1,77 +1,211 @@
+/********************* Sobreescribir estilos de Bootstrap *******************/
+/* Color corporativo */
+:root {
+  /* Paleta corporativa */
+  --color-primary: #b8520a; /* tono principal */
+  --color-primary-light: #e9e3e3; /* tono más claro */
+  --color-primary-dark: #872f00; /* tono más oscuro */
+  --color-neutral: #f5f5f5; /* fondo/neutro */
+  --color-neutral-dark: #333333; /* texto oscuro neutro */
+  --color-primary-subtle: #e3dcd8; /* tono más claro */
+
+  /* Colores RGB para efectos con opacidad */
+  --color-primary-rgb: 184, 82, 10;
+  --color-primary-light-rgb: 224, 122, 61;
+  --color-primary-dark-rgb: 135, 47, 0;
+}
+/* Botones */
+.btn-primary {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+}
+a.btn:hover {
+  color: #fff !important;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background-color: rgba(var(--color-primary-rgb), 0.85);
+  border-color: rgba(var(--color-primary-rgb), 0.85);
+  color: var(--color-primary-light);
+}
+.btn-outline-primary {
+  color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+}
+.btn:hover {
+  color: var(--color-primary-light) !important;
+  border-color: var(--color-primary-dark) !important;
+  background-color: var(--color-primary-dark) !important;
+}
+.bottom-nav a.active {
+  color: var(--color-primary) !important; /* fuerza color corporativo */
+}
+
+/* Fondos */
+.bg-primary {
+  background-color: var(--color-primary) !important;
+}
+.bg-primary-light {
+  background-color: var(--color-primary-light);
+}
+.bg-primary-subtle {
+  background-color: var(--color-primary-subtle);
+}
+.bg-primary-dark {
+  background-color: var(--color-primary-dark);
+}
+
+/* Texto */
+.text-primary {
+  color: var(--color-primary) !important;
+}
+.text-primary-light {
+  color: var(--color-primary-light) !important;
+}
+.text-primary-dark {
+  color: var(--color-primary-dark) !important;
+}
+
+/* Bordes */
+.border-primary {
+  border-color: var(--color-primary) !important;
+}
+
+/* Links */
+.link-primary {
+  color: var(--color-primary) !important;
+}
+.link-primary:hover {
+  color: var(--color-primary-light) !important;
+}
+/* Reset mínimo para un look limpio */
 body {
-    background-color: #f8f9fa;
-    padding-bottom: 70px;
-    font-family: system-ui, sans-serif;
+  background-color: var(--color-neutral-light);
+  color: var(--color-neutral-dark);
+  font-family: "Inter", sans-serif;
+}
+
+/* Tarjetas modernas */
+.card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.card-header {
+  font-weight: 600;
+  border-bottom: none;
+  border-radius: 12px 12px 0 0;
+}
+
+/* Botones */
+.btn-primary {
+  background-color: var(--color-primary);
+  border: none;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-dark);
+}
+
+/* Alertas */
+.alert {
+  border-radius: 10px;
+  font-size: 0.95rem;
+}
+
+/* Iconos dentro de alertas */
+.alert i {
+  font-size: 1.25rem;
+}
+
+/* Ajuste responsive de cabecera */
+h1.h3 {
+  font-weight: 600;
+}
+
+/********************************************************/
+body {
+  background-color: #f8f9fa;
+  padding-bottom: 70px;
+  font-family: system-ui, sans-serif;
+}
+a {
+  text-decoration: none;
 }
 
 /************* Navbar superior *************/
 .navbar-brand {
-    font-weight: 600;
-    letter-spacing: 0.3px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
 }
 
 /*********** Registro ************/
 
-
 /*********** Menu inferior fijo ***********/
 .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: #fff;
-    border-top: 1px solid #dee2e6;
-    display: flex;
-    justify-content: space-around;
-    padding: 8px 0;
-    z-index: 1030;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-top: 1px solid #dee2e6;
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 0;
+  z-index: 1030;
 }
 .bottom-nav a {
-    text-decoration: none;
-    color: #6c757d;
-    font-size: 0.85rem;
-    text-align: center;
+  text-decoration: none;
+  color: #6c757d;
+  font-size: 0.85rem;
+  text-align: center;
 }
 .bottom-nav a.active,
 .bottom-nav a:focus,
 .bottom-nav a:hover {
-    color: #0d6efd;
+  color: #0d6efd;
 }
 .bottom-nav i {
-    display: block;
-    font-size: 1.25rem;
+  display: block;
+  font-size: 1.25rem;
 }
 
 /******* Helpers *******/
 .container main,
 main.container {
-    padding-top: 4rem;
+  padding-top: 4rem;
 }
 
 .sticky-sidebar {
-    position: sticky;
-    top: 4.5rem; 
+  position: sticky;
+  top: 4.5rem;
 }
 
 .alphabet-nav a {
-    display: block;
-    padding: 6px 0;
-    color: #6c757d;
-    text-decoration: none;
+  display: block;
+  padding: 6px 0;
+  /* color: #6c757d; */
+  text-decoration: none;
 }
 .alphabet-nav a:hover,
 .alphabet-nav a.active {
-    color: #0d6efd;
-    font-weight: 600;
+  color: #0d6efd;
+  font-weight: 600;
 }
 
 /* Admin */
-.admin-sidebar { width: 240px; }
-
-.table-grouped td {
-    background-color: #f8f9fa;
+.admin-sidebar {
+  width: 240px;
 }
 
+.table-grouped td {
+  background-color: #f8f9fa;
+}
 
 /*********** Juego ***********/
 /* Transición entre preguntas */
@@ -102,18 +236,56 @@ main.container {
   animation: blink-danger 0.4s ease-in-out 2;
 }
 
-
 /* Efecto "pop" en cada pregunta nueva */
 .pregunta-animada {
   animation: pop-in 0.3s ease-out;
 }
 
 @keyframes pop-in {
-  0% { transform: scale(0.95); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+/****************** Ranking ********************/
+.top1 {
+    border-left: 4px solid var(--color-primary);
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.top2 {
+    border-left: 4px solid var(--color-primary-light, #8fb3ff);
+    background-color: rgba(0, 0, 0, 0.015);
+}
+
+.top3 {
+    border-left: 4px solid var(--color-neutral-dark, #999);
+    background-color: rgba(0, 0, 0, 0.01);
+}
+
+.table thead th {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.table tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.04);
 }
 
 /************** Glosario **************/
 [id^="sec-"] {
-  scroll-margin-top: 60px; /* ajusta según la altura de tu barra */
+  scroll-margin-top: 60px; /* margen para evitar la navbar */
+}
+
+/************* Logo **************/
+.navbar-brand svg .icon-bg {
+  fill: #b8520a;
+}
+
+/*  Clases personalizadas */
+.radius-12 {
+  border-radius: 12px;
 }
