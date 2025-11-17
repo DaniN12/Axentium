@@ -38,8 +38,10 @@ if(!isset($_SESSION['usuario'])){
 <body class="bg-light">
     <div class="d-flex">
         <!-- Sidebar -->
-        <aside class="bg-dark text-white p-3 vh-100 sticky-top admin-sidebar">
-            <h4 class="mb-4 text-center">LHizki Admin</h4>
+        <aside class="bg-dark-medium text-white p-3 vh-100 sticky-top admin-sidebar">
+            <h4 class="mb-4 text-center">
+                <img src="../assets/img/logo_txt@0.5x.png" alt="Logo" class="img-fluid">
+            </h4>
             <ul class="nav flex-column">
                 <li class="nav-item mb-2"><a href="?s=home" class="nav-link text-white"><i class="fas fa-solid fa-gauge"></i> Dashboard</a></li>
                 <li class="nav-item mb-2"><a href="?s=juegos" class="nav-link text-white"><i class="fas fa-solid fa-gamepad"></i> Juegos</a></li>
@@ -47,7 +49,7 @@ if(!isset($_SESSION['usuario'])){
                 <li class="nav-item mb-2"><a href="?s=glosario_admin" class="nav-link text-white"><i class="fas fa-solid fa-book"></i> Glosario</a></li>
                 <li class="nav-item mb-2"><a href="?s=preguntas" class="nav-link text-white"><i class="fas fa-solid fa-question"></i> Preguntas</a></li>
                 <li class="nav-item mb-2"><a href="?s=notificaciones_admin" class="nav-link text-white"><i class="fas fa-solid fas fa-bell"></i> Notificaciones</a></li>
-                <li class="nav-item mt-4"><a href="../index.php" class="nav-link text-secondary"><i class="fas fa-solid fa-arrow-left"></i> Volver</a></li>
+                <li class="nav-item mt-4"><a href="<?= BASE_URL ?>admin/index.php" class="nav-link text-secondary"><i class="fas fa-solid fa-arrow-left"></i> Volver</a></li>
                 
             </ul>
         </aside>

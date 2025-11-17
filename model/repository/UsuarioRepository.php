@@ -29,8 +29,8 @@ class UsuarioRepository
             return false; //el usuario ya existe
         }
 
-        $sqlInsert = "INSERT INTO usuarios(username, email, password, rolId, centroId, cicloId)
-                    VALUES ('$username','$email','$pass', '" . self::ROL_USUARIO . "', '$centro', '$ciclo')";
+        $sqlInsert = "INSERT INTO usuarios(username, email, password, rolId, centroId, cicloId, fecha_registro)
+                    VALUES ('$username','$email','$pass', '" . self::ROL_USUARIO . "', '$centro', '$ciclo', NOW())";
         mysqli_query($this->conexion, $sqlInsert);
 
         return true;

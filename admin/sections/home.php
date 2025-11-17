@@ -11,19 +11,62 @@ $rankingCiclos = $partidasRepo->getRankingPorCiclos();
 $nuevosUsuariosSemana = $usuariosRepo->getCountNuevosUsuariosSemana();
 $partidasEstaSemana = $partidasRepo->getCountPartidasEstaSemana();
 
-$partidasPorSemana = [50, 75, 120, 90, 130, 150, 160];
-$porcentajePorFamilia = [
-    'Informática' => 80,
-    'Marketing' => 65,
-    'Administración' => 50,
-    'Diseño' => 70
-];
+$partidasPorSemana = $partidasRepo->getPartidasPorSemana();
+$labelsSemanas = array_column($partidasPorSemana, 'semana');
+$valoresSemanas = array_column($partidasPorSemana, 'total');
+
+$totalPorFamilia = $partidasRepo->getTotalUsuariosPorFamilia();
+$activosPorSemana = $partidasRepo->getUsuariosActivosPorFamiliaPorSemana();
+
+$familias = [];
+$semanas = [];
+$porcentajes = [];
+
+foreach ($activosPorSemana as $row) {
+    $sem = $row['semana'];
+    $famId = $row['familiaId'];
+    $famName = $row['familia'];
+    $activos = (int)$row['usuariosActivos'];
+
+    $familias[$famId] = $famName;
+    $semanas[$sem] = true;
+
+    $total = $totalPorFamilia[$famId]['totalUsuarios'];
+
+    $porcentaje = $total > 0 ? round(($activos / $total) * 100, 2) : 0;
+
+    $porcentajes[$famId][$sem] = $porcentaje;
+}
+
+// rellenar semanas faltantes con 0
+foreach ($familias as $famId => $name) {
+    foreach ($semanas as $sem => $_) {
+        if (!isset($porcentajes[$famId][$sem])) {
+            $porcentajes[$famId][$sem] = 0;
+        }
+    }
+}
+
+$familiasJS = array_values($familias);
+$semanasJS = array_keys($semanas);
+
+// generar datasets
+$datasetsJS = [];
+$opacity = 1.0;
+
+foreach ($familias as $famId => $famName) {
+    $datasetsJS[] = [
+        "label" => $famName,
+        "data" => array_values($porcentajes[$famId]),
+    ];
+}
+
+
 ?>
 
 <div class="container-fluid px-4">
     <h1 class="mt-4 mb-4 text-secondary">Estadísticas</h1>
 
-    <!-- KPI Cards Minimalistas -->
     <div class="row g-4 mb-4">
         <div class="col-md-3">
             <div class="card h-100 border-primary shadow-sm rounded-3">
@@ -101,7 +144,7 @@ $porcentajePorFamilia = [
                             </tr>
                         </thead>
                         <tbody>
-                            <?php 
+                            <?php
                             $pos = 1;
                             foreach ($rankingUsuarios as $u): ?>
                                 <tr>
@@ -133,9 +176,9 @@ $porcentajePorFamilia = [
                             </tr>
                         </thead>
                         <tbody>
-                            <?php 
-                             $pos = 1;
-                             foreach ($rankingCiclos as $c): ?>
+                            <?php
+                            $pos = 1;
+                            foreach ($rankingCiclos as $c): ?>
                                 <tr>
                                     <td><?= $pos++ ?></td>
                                     <td><?= $c['ciclo'] ?></td>
@@ -157,10 +200,10 @@ $porcentajePorFamilia = [
     const lineChart = new Chart(ctxLine, {
         type: 'line',
         data: {
-            labels: ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4', 'Semana 5', 'Semana 6', 'Semana 7'],
+            labels: <?= json_encode($labelsSemanas) ?>,
             datasets: [{
                 label: 'Partidas Jugadas',
-                data: <?= json_encode($partidasPorSemana) ?>,
+                data: <?= json_encode($valoresSemanas) ?>,
                 borderColor: '#0d6efd',
                 backgroundColor: 'rgba(13,110,253,0.1)',
                 fill: true,
@@ -186,30 +229,19 @@ $porcentajePorFamilia = [
 
     const ctxBarFamily = document.getElementById('barChartFamily').getContext('2d');
 
-    // Datos de ejemplo: 4 familias x 7 semanas
-    const semanas = ['Semana 1', 'Semana 2', 'Semana 3'];
-    const familias = ['Informática', 'Marketing', 'Administración', 'Diseño'];
+    const semanas = <?= json_encode($semanasJS) ?>;
+    const datasets = <?= json_encode($datasetsJS) ?>;
 
-    // Porcentajes por semana (fila = familia, columna = semana)
-    const datosFamilias = {
-        'Informática': [80, 75, 90, 85, 92, 88, 95],
-        'Marketing': [65, 70, 60, 72, 68, 75, 70],
-        'Administración': [50, 55, 52, 60, 58, 54, 57],
-        'Diseño': [70, 65, 75, 68, 72, 70, 74]
-    };
-    const tonosAzul = [
-        'rgba(13,110,253,0.9)',
-        'rgba(13,110,253,0.7)',
-        'rgba(13,110,253,0.5)',
-        'rgba(13,110,253,0.3)'
+    const colores = [
+        'rgba(218, 117, 45, 0.9)',
+        'rgba(141, 68, 16, 0.9)',
+        'rgba(37, 120, 74, 0.9)',
+        'rgba(71, 137, 199, 0.9)'
     ];
-    // Construir datasets dinámicamente
-    const datasets = familias.map((familia, index) => ({
-        label: familia,
-        data: datosFamilias[familia],
-        backgroundColor: tonosAzul[index],
-        borderRadius: 4
-    }));
+    datasets.forEach((ds, i) => {
+        ds.backgroundColor = colores[i % colores.length];
+        ds.borderColor = colores[i % colores.length];
+    });
 
     const barChartFamily = new Chart(ctxBarFamily, {
         type: 'bar',
