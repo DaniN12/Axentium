@@ -159,7 +159,7 @@ class UsuarioRepository
         $sql = "DELETE FROM usuarios WHERE id='$idSanitized'";
         return mysqli_query($this->conexion, $sql);
     }
-    function editarUsuario($id, $username, $email, $pass = null, $centroId, $cicloId, $rolId)
+    function editarUsuario($id, $username, $email, $centroId, $cicloId, $rolId, $pass = null)
     {
         $idSanitized = mysqli_real_escape_string($this->conexion, (int)$id);
         $usernameSanitized = mysqli_real_escape_string($this->conexion, $username);
