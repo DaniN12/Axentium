@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `categorias` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla lhizki.categorias: ~6 rows (aproximadamente)
+-- Volcando datos para la tabla lhizki.categorias: ~4 rows (aproximadamente)
 INSERT INTO `categorias` (`id`, `nombre`) VALUES
 	(1, 'geografia'),
 	(2, 'historia'),
@@ -59,11 +59,10 @@ CREATE TABLE IF NOT EXISTS `centros_ciclos` (
   CONSTRAINT `FK_centros_ciclos_ciclos` FOREIGN KEY (`cicloId`) REFERENCES `ciclos` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla lhizki.centros_ciclos: ~11 rows (aproximadamente)
+-- Volcando datos para la tabla lhizki.centros_ciclos: ~5 rows (aproximadamente)
 INSERT INTO `centros_ciclos` (`centroId`, `cicloId`) VALUES
 	(1, 1),
 	(2, 1),
-	(1, 2),
 	(1, 3),
 	(3, 4),
 	(1, 5),
@@ -83,10 +82,9 @@ CREATE TABLE IF NOT EXISTS `ciclos` (
   CONSTRAINT `FK_ciclos_familias` FOREIGN KEY (`familiaId`) REFERENCES `familias` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla lhizki.ciclos: ~10 rows (aproximadamente)
+-- Volcando datos para la tabla lhizki.ciclos: ~9 rows (aproximadamente)
 INSERT INTO `ciclos` (`id`, `nombre`, `familiaId`) VALUES
 	(1, 'DAW', 1),
-	(2, 'ADE', 2),
 	(3, 'SMR', 1),
 	(4, 'DAM', 1),
 	(5, 'ASIR', 1),
@@ -162,8 +160,6 @@ CREATE TABLE IF NOT EXISTS `juegos` (
 
 -- Volcando datos para la tabla lhizki.juegos: ~4 rows (aproximadamente)
 INSERT INTO `juegos` (`id`, `familiaId`, `activo`, `fecha_inicio`, `fecha_fin`) VALUES
-	(38, 1, 0, '2025-11-03 00:00:00', '2025-11-10 00:00:00'),
-	(39, 2, 0, '2025-11-03 00:00:00', '2025-11-10 00:00:00'),
 	(54, 1, 1, '2025-11-10 00:00:00', '2025-11-16 00:00:00'),
 	(55, 2, 1, '2025-11-10 00:00:00', '2025-11-16 00:00:00'),
 	(56, 3, 1, '2025-11-10 00:00:00', '2025-11-16 00:00:00'),
@@ -181,10 +177,8 @@ CREATE TABLE IF NOT EXISTS `juegos_preguntas` (
   CONSTRAINT `FK_juegos_preguntas_preguntas` FOREIGN KEY (`preguntaId`) REFERENCES `preguntas` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=150 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla lhizki.juegos_preguntas: ~10 rows (aproximadamente)
+-- Volcando datos para la tabla lhizki.juegos_preguntas: ~42 rows (aproximadamente)
 INSERT INTO `juegos_preguntas` (`id`, `juegoId`, `preguntaId`) VALUES
-	(55, 38, 11),
-	(57, 39, 30),
 	(110, 54, 60),
 	(111, 54, 5),
 	(112, 54, 63),
@@ -230,10 +224,13 @@ INSERT INTO `juegos_preguntas` (`id`, `juegoId`, `preguntaId`) VALUES
 CREATE TABLE IF NOT EXISTS `notificaciones` (
   `id` int NOT NULL AUTO_INCREMENT,
   `texto` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `fecha` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla lhizki.notificaciones: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla lhizki.notificaciones: ~1 rows (aproximadamente)
+INSERT INTO `notificaciones` (`id`, `texto`, `fecha`) VALUES
+	(1, 'Ongi etorri LHizki-ra!', '2025-11-15 23:46:35');
 
 -- Volcando estructura para tabla lhizki.partidas
 CREATE TABLE IF NOT EXISTS `partidas` (
@@ -245,9 +242,12 @@ CREATE TABLE IF NOT EXISTS `partidas` (
   CONSTRAINT `FK_partidas_juegos` FOREIGN KEY (`juegoId`) REFERENCES `juegos` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla lhizki.partidas: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla lhizki.partidas: ~3 rows (aproximadamente)
 INSERT INTO `partidas` (`juegoId`, `usuarioId`, `puntuacion`, `fecha`) VALUES
-	(54, 8, 878, '2025-11-15 21:28:27');
+	(54, 7, 883, '2025-11-16 18:08:10'),
+	(54, 8, 878, '2025-11-06 21:28:27'),
+	(55, 4, 983, '2025-11-15 22:10:14'),
+	(57, 10, 286, '2025-11-17 00:36:08');
 
 -- Volcando estructura para tabla lhizki.preguntas
 CREATE TABLE IF NOT EXISTS `preguntas` (
@@ -268,7 +268,7 @@ CREATE TABLE IF NOT EXISTS `preguntas` (
   CONSTRAINT `FK_preguntas_familias` FOREIGN KEY (`familiaId`) REFERENCES `familias` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla lhizki.preguntas: ~54 rows (aproximadamente)
+-- Volcando datos para la tabla lhizki.preguntas: ~55 rows (aproximadamente)
 INSERT INTO `preguntas` (`id`, `pregunta`, `opcion1`, `opcion2`, `opcion3`, `correcta`, `usada`, `img`, `familiaId`, `categoriaId`) VALUES
 	(5, 'ámbito de uso', 'erabileraeremu', 'erabilera-eremu', 'erabilera-ezparru', 2, 0, NULL, 1, NULL),
 	(6, 'alinear', 'lerrokatu', 'errokatu', 'berdindu', 1, 0, NULL, 1, NULL),
@@ -352,6 +352,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `centroId` int NOT NULL,
   `cicloId` int NOT NULL,
   `rolId` int NOT NULL,
+  `fecha_registro` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_usuarios_centros` (`centroId`),
   KEY `FK_usuarios_ciclos` (`cicloId`),
@@ -359,15 +360,17 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   CONSTRAINT `FK_usuarios_centros` FOREIGN KEY (`centroId`) REFERENCES `centros` (`id`),
   CONSTRAINT `FK_usuarios_ciclos` FOREIGN KEY (`cicloId`) REFERENCES `ciclos` (`id`),
   CONSTRAINT `FK_usuarios_roles` FOREIGN KEY (`rolId`) REFERENCES `roles` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Volcando datos para la tabla lhizki.usuarios: ~5 rows (aproximadamente)
-INSERT INTO `usuarios` (`id`, `username`, `email`, `password`, `centroId`, `cicloId`, `rolId`) VALUES
-	(4, 'ane', 'a@email.com', '81dc9bdb52d04dc20036dbd8313ed055', 1, 2, 2),
-	(5, 'admin', 'admin@email.com', '81dc9bdb52d04dc20036dbd8313ed055', 1, 1, 1),
-	(6, 'dani', 'dani@email.com', '81dc9bdb52d04dc20036dbd8313ed055', 3, 4, 2),
-	(7, 'amaia', 'amaia@email.com', '81dc9bdb52d04dc20036dbd8313ed055', 2, 1, 2),
-	(8, 'inge', 'inge@email.com', '81dc9bdb52d04dc20036dbd8313ed055', 1, 5, 2);
+INSERT INTO `usuarios` (`id`, `username`, `email`, `password`, `centroId`, `cicloId`, `rolId`, `fecha_registro`) VALUES
+	(4, 'ane', 'a@email.com', '81dc9bdb52d04dc20036dbd8313ed055', 1, 7, 2, '2025-09-15 23:32:34'),
+	(5, 'admin', 'admin@email.com', '81dc9bdb52d04dc20036dbd8313ed055', 1, 1, 1, '2025-09-15 23:32:36'),
+	(6, 'dani', 'dani@email.com', '81dc9bdb52d04dc20036dbd8313ed055', 3, 4, 2, '2025-11-15 23:32:36'),
+	(7, 'amaia', 'amaia@email.com', '81dc9bdb52d04dc20036dbd8313ed055', 2, 1, 2, '2025-11-15 23:32:37'),
+	(8, 'inge', 'inge@email.com', '81dc9bdb52d04dc20036dbd8313ed055', 1, 5, 2, '2025-11-15 23:32:38'),
+	(9, 'brahim', 'brahim@email.com', '81dc9bdb52d04dc20036dbd8313ed055', 1, 10, 2, '2025-11-17 01:22:02'),
+	(10, 'gorka', 'gorka@email.com', '81dc9bdb52d04dc20036dbd8313ed055', 1, 8, 2, '2025-11-17 01:35:04');
 
 -- Volcando estructura para tabla lhizki.usuario_preguntas
 CREATE TABLE IF NOT EXISTS `usuario_preguntas` (
@@ -385,6 +388,26 @@ CREATE TABLE IF NOT EXISTS `usuario_preguntas` (
 
 -- Volcando datos para la tabla lhizki.usuario_preguntas: ~0 rows (aproximadamente)
 INSERT INTO `usuario_preguntas` (`usuarioId`, `juegoId`, `preguntaId`, `respuesta`) VALUES
+	(4, 55, 25, 1),
+	(4, 55, 26, 1),
+	(4, 55, 27, 1),
+	(4, 55, 29, 1),
+	(4, 55, 30, 1),
+	(4, 55, 59, 1),
+	(4, 55, 60, 1),
+	(4, 55, 61, 1),
+	(4, 55, 63, 1),
+	(4, 55, 65, 1),
+	(7, 54, 5, 1),
+	(7, 54, 7, 1),
+	(7, 54, 8, 1),
+	(7, 54, 10, 1),
+	(7, 54, 21, 1),
+	(7, 54, 59, 1),
+	(7, 54, 60, 1),
+	(7, 54, 61, 1),
+	(7, 54, 63, 1),
+	(7, 54, 65, 1),
 	(8, 54, 5, 1),
 	(8, 54, 7, 1),
 	(8, 54, 8, 1),
@@ -394,7 +417,17 @@ INSERT INTO `usuario_preguntas` (`usuarioId`, `juegoId`, `preguntaId`, `respuest
 	(8, 54, 60, 1),
 	(8, 54, 61, 1),
 	(8, 54, 63, 1),
-	(8, 54, 65, 1);
+	(8, 54, 65, 1),
+	(10, 57, 46, 1),
+	(10, 57, 48, 1),
+	(10, 57, 52, 1),
+	(10, 57, 53, 1),
+	(10, 57, 54, 1),
+	(10, 57, 59, 1),
+	(10, 57, 60, 1),
+	(10, 57, 61, 1),
+	(10, 57, 63, 1),
+	(10, 57, 65, 1);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
