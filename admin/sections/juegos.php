@@ -48,7 +48,7 @@ $juegosPasados = $juegoRepository->getJuegosPorEstado('pasados');
                 <!-- Botón -->
                 <div class="col-md-2 d-grid">
                     <input type="hidden" name="action" value="crearJuegosByCentro">
-                    <button type="submit" class="btn btn-success fw-semibold">
+                    <button type="submit" class="btn btn-primary fw-semibold">
                         <i class="fas fa-solid fa-plus me-1"></i> Crear
                     </button>
                 </div>
