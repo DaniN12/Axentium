@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `categorias` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla lhizki.categorias: ~4 rows (aproximadamente)
+-- Volcando datos para la tabla lhizki.categorias: ~6 rows (aproximadamente)
 INSERT INTO `categorias` (`id`, `nombre`) VALUES
 	(1, 'geografia'),
 	(2, 'historia'),
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `centros_ciclos` (
   CONSTRAINT `FK_centros_ciclos_ciclos` FOREIGN KEY (`cicloId`) REFERENCES `ciclos` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla lhizki.centros_ciclos: ~5 rows (aproximadamente)
+-- Volcando datos para la tabla lhizki.centros_ciclos: ~10 rows (aproximadamente)
 INSERT INTO `centros_ciclos` (`centroId`, `cicloId`) VALUES
 	(1, 1),
 	(2, 1),
@@ -177,7 +177,7 @@ CREATE TABLE IF NOT EXISTS `juegos_preguntas` (
   CONSTRAINT `FK_juegos_preguntas_preguntas` FOREIGN KEY (`preguntaId`) REFERENCES `preguntas` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=373 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla lhizki.juegos_preguntas: ~76 rows (aproximadamente)
+-- Volcando datos para la tabla lhizki.juegos_preguntas: ~40 rows (aproximadamente)
 INSERT INTO `juegos_preguntas` (`id`, `juegoId`, `preguntaId`) VALUES
 	(323, 77, 244),
 	(324, 77, 132),
@@ -228,9 +228,10 @@ CREATE TABLE IF NOT EXISTS `notificaciones` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla lhizki.notificaciones: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla lhizki.notificaciones: ~1 rows (aproximadamente)
 INSERT INTO `notificaciones` (`id`, `texto`, `fecha`) VALUES
-	(1, 'Ongi etorri LHizki-ra!', '2025-11-15 23:46:35');
+	(1, 'Ongi etorri LHizki-ra!', '2025-11-15 23:46:35'),
+	(2, '¡Nuevo juego de la semana! Asteko jolas berria!', '2025-11-18 01:20:37');
 
 -- Volcando estructura para tabla lhizki.partidas
 CREATE TABLE IF NOT EXISTS `partidas` (
@@ -463,7 +464,7 @@ CREATE TABLE IF NOT EXISTS `usuario_preguntas` (
   CONSTRAINT `FK_usuario_preguntas_usuarios` FOREIGN KEY (`usuarioId`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla lhizki.usuario_preguntas: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla lhizki.usuario_preguntas: ~70 rows (aproximadamente)
 INSERT INTO `usuario_preguntas` (`usuarioId`, `juegoId`, `preguntaId`, `respuesta`) VALUES
 	(4, 78, 148, 1),
 	(4, 78, 155, 1),
