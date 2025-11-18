@@ -24,7 +24,11 @@ $porcentajes = [];
 
 foreach ($activosPorSemana as $row) {
     $sem = $row['semana'];
+    if (empty($sem)) continue; // saltar semanas vacías
     $famId = $row['familiaId'];
+    if (!isset($totalPorFamilia[$famId]) || $totalPorFamilia[$famId]['totalUsuarios'] == 0) {
+        continue; // saltar familias sin usuarios
+    }
     $famName = $row['familia'];
     $activos = (int)$row['usuariosActivos'];
 
@@ -55,9 +59,15 @@ $datasetsJS = [];
 $opacity = 1.0;
 
 foreach ($familias as $famId => $famName) {
+    if (!isset($totalPorFamilia[$famId]) || $totalPorFamilia[$famId]['totalUsuarios'] == 0) continue;
+
+    $data = [];
+    foreach ($semanasJS as $sem) {
+        $data[] = $porcentajes[$famId][$sem] ?? 0;
+    }
     $datasetsJS[] = [
         "label" => $famName,
-        "data" => array_values($porcentajes[$famId]),
+        "data" => $data,
     ];
 }
 

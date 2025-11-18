@@ -45,9 +45,9 @@ if(!isset($_SESSION['usuario'])){
             <ul class="nav flex-column">
                 <li class="nav-item mb-2"><a href="?s=home" class="nav-link text-white"><i class="fas fa-solid fa-gauge"></i> Dashboard</a></li>
                 <li class="nav-item mb-2"><a href="?s=juegos" class="nav-link text-white"><i class="fas fa-solid fa-gamepad"></i> Juegos</a></li>
+                <li class="nav-item mb-2"><a href="?s=preguntas" class="nav-link text-white"><i class="fas fa-solid fa-question"></i> Preguntas</a></li>
                 <li class="nav-item mb-2"><a href="?s=usuarios" class="nav-link text-white"><i class="fas fa-solid fa-users"></i> Usuarios</a></li>
                 <li class="nav-item mb-2"><a href="?s=glosario_admin" class="nav-link text-white"><i class="fas fa-solid fa-book"></i> Glosario</a></li>
-                <li class="nav-item mb-2"><a href="?s=preguntas" class="nav-link text-white"><i class="fas fa-solid fa-question"></i> Preguntas</a></li>
                 <li class="nav-item mb-2"><a href="?s=notificaciones_admin" class="nav-link text-white"><i class="fas fa-solid fas fa-bell"></i> Notificaciones</a></li>
                 <li class="nav-item mt-4"><a href="<?= BASE_URL ?>admin/index.php" class="nav-link text-secondary"><i class="fas fa-solid fa-arrow-left"></i> Volver</a></li>
                 
