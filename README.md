@@ -7,8 +7,6 @@ Guía rápida para poner en marcha la aplicación en local.
 - **Servidor web** (Apache recomendado). Puedes usar **Uniform Server Zero (UniServerZ)** o **XAMPP**.
 - **MySQL/MariaDB**.
 
-No hay dependencias de Composer (no existe `composer.json`).
-
 ## Estructura y puntos de entrada
 - **Frontend público**: `http://localhost/Axentium/`
 - **Panel de administración**: `http://localhost/Axentium/admin/`
@@ -56,3 +54,10 @@ Credenciales de administrador: usuario: admin, contraseña:1234
 
 ## Licencia
 Si no se especifica, este proyecto se considera de uso académico/interno.
+
+
+## Creación de juegos
+Para poder jugar juegos se deben crear juegos en el panel de administración.
+Si se elige el Centro San Luis se crearán 4 juegos correspondientes a sus familias formativas. 
+Los usuarios podrán entonces acceder a sus juegos semanales disponibles. 
+Se pueden registrar nuevos usuarios o usar usuarios existentes en la BD (las contraseñas son todas 1234)  
