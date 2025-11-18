@@ -8,10 +8,10 @@ if (!isset($_GET['centroId']) || empty($_GET['centroId'])) {
     echo json_encode(['error' => 'centroId requerido']);
     exit;
 }
-
 $centroId = intval($_GET['centroId']);
 
-$centroRepo = new CentroRepository();
+$bd = new AccesoBD();
+$centroRepo = new CentroRepository($bd->conexion);
 $ciclos = $centroRepo->getCiclosByCentroId($centroId);
 
 if (!$ciclos) {

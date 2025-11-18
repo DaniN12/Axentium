@@ -1,18 +1,22 @@
 <?php
-require_once(__DIR__ . "/../AccesoBD.class.php");
 require_once(__DIR__ . "/../Familia.class.php");
 require_once(__DIR__ . "/../Ciclo.class.php");
 
 class FamiliaRepository
 {
+        private $conexion;
+
+    function __construct($conexion)
+    {
+        $this->conexion = $conexion;
+    }
 
     function getFamilias()
     {
-        $bd = new AccesoBD();
         $sql = "SELECT id, nombre
             FROM familias
             ;";
-        $result = mysqli_query($bd->conexion, $sql);
+        $result = mysqli_query($this->conexion, $sql);
 
         $familias = [];
 
@@ -27,14 +31,13 @@ class FamiliaRepository
         return null;
     }
 
-    function getFamiliasByCentro($centro) //REVISAR ESTÁ TODO PENDIENTE
+    function getFamiliasByCentro($centro) //REVISAR 
     {
-        $bd = new AccesoBD();
         $sql = "SELECT centros.id, centros.nombre, familias.id, nombre
             FROM familias
             WHERE 
             ;";
-        $result = mysqli_query($bd->conexion, $sql);
+        $result = mysqli_query($this->conexion, $sql);
 
         $familias = [];
 

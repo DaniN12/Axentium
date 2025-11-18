@@ -2,7 +2,8 @@
 require_once __DIR__ . '/../config.php';
 require_once BASE_PATH . '/model/repository/CentroRepository.php';
 
-$repo = new CentroRepository();
+$bd = new AccesoBD();
+$repo = new CentroRepository($bd->conexion);
 $centros = $repo->getCentros();
 $action = $_POST['action'] ?? null;
 echo "<pre>";

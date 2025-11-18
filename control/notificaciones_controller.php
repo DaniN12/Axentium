@@ -1,7 +1,8 @@
 <?php
 require_once __DIR__ . "/../model/repository/NotificacionesRepository.php";
-
-$repo = new NotificacionesRepository();
+require_once BASE_PATH . '/model/AccesoBD.class.php';
+$bd = new AccesoBD();
+$repo = new NotificacionesRepository($bd->conexion);
 
 // Crear notificación
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['texto'])) {

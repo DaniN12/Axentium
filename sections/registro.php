@@ -1,10 +1,11 @@
 <?php
 require_once __DIR__ . "/../model/repository/CentroRepository.php";
 require_once __DIR__ . "/../model/repository/CicloRepository.php";
-
-$centroRepository = new CentroRepository();
+$bd = new AccesoBD();
+$conexion = $bd->conexion;
+$centroRepository = new CentroRepository($conexion);
 $centros = $centroRepository->getCentros();
-$cicloRepository = new CicloRepository();
+$cicloRepository = new CicloRepository($conexion);
 $ciclos = $cicloRepository->getCiclos();
 
 ?>

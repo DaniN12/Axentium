@@ -3,11 +3,12 @@ class Notificacion
 {
     private $id;
     private $texto;
-
-    public function __construct($id = null, $texto = "")
+    private $fecha;
+    public function __construct($id = null, $texto = "", $fecha = null)
     {
         $this->id = $id;
         $this->texto = $texto;
+        $this->fecha = $fecha;
     }
 
     public function getId()
@@ -28,6 +29,16 @@ class Notificacion
     public function setTexto($texto)
     {
         $this->texto = $texto;
+    }
+
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
+
+    public function setFecha($fecha)
+    {
+        $this->fecha = $fecha;
     }
 }
 ?>

@@ -3,6 +3,8 @@
 require_once(__DIR__.'/../config.php');
 require_once(BASE_PATH."/model/repository/UsuarioRepository.php");
 
+$bd = new AccesoBD();
+$conexion = $bd->conexion;
 $username=$_POST['username'];
 $email=$_POST['email'];
 $pass=$_POST['pass'];
@@ -18,7 +20,7 @@ if($pass != $pass2){
 
 }else if($centro != '' && $ciclo != '') {
     
-    $usuarioRepository=new UsuarioRepository();
+    $usuarioRepository=new UsuarioRepository($conexion);
     $usuarioRepository->registrarUsuario($username, $email, $pass, $centro, $ciclo);
     header("Location: ../index.php?s=login"); 
 } else {

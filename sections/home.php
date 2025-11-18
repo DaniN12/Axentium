@@ -6,81 +6,70 @@
 // require_once BASE_PATH . '/model/Usuario.class.php';
 // require_once BASE_PATH . '/model/Juego.class.php';
 $msg = $_GET['msg'] ?? '';
-if(!isset($_SESSION['usuario'])){
+if (!isset($_SESSION['usuario'])) {
     header('Location: ' . BASE_URL . 'index.php?s=login');
 }
 ?>
 
-<div class="container py-3">
-    <div class="d-flex align-items-center justify-content-between mb-3">
-        <h1 class="h3 mb-0">Kaixo, <?=$_SESSION['usuario']->getUsername() ?>!</h1>
-        <!-- <span class="badge text-bg-light">Zona de usuario</span> -->
+<div class="container py-4">
+    <div class="mb-4">
+        <h1 class="h3 mb-2">Kaixo, <?= htmlspecialchars($_SESSION['usuario']->getUsername()) ?>!</h1>
     </div>
 
-    <?php
-    if (!isset($_SESSION['usuario'])) {
-        header('Location: ' . BASE_URL . 'index.php?s=login');
-    } else {
-        $usuario = $_SESSION['usuario'];
-        $rol = strtolower($usuario->getRol()->getRolName());
-        $nombreUsuario = htmlspecialchars($usuario->getUsername());
-    ?>
-
+    <section class="mb-5 py-3 px-3 bg-white radius-12">
+        <h2 class="h5 mb-2 text-primary-dark">
+            <i class="fas fa-gamepad me-2"></i> Juego de la semana
+        </h2>
+        <hr style="border-top: 2px solid var(--color-primary); margin-left:0;">
         <?php
-        // Mensajes específicos
-        if ($msg === 'none') {
-            echo '<div class="alert alert-warning d-flex align-items-center" role="alert">
-                <i class="fa-solid fa-circle-info me-2"></i>
-                <div>No hay un juego activo para tu familia actualmente.</div>
-              </div>';
-        } elseif ($msg === 'jugado') {
-            echo '<div class="alert alert-info d-flex align-items-center" role="alert">
-                <i class="fa-solid fa-circle-check me-2"></i>
-                <div>¡Ya has jugado a este juego!</div>
-              </div>';
-        } ?>
-        
-        <?php if (isset($_SESSION['juegoActivo']) && $msg == '') {
+        if (!isset($_SESSION['usuario'])) {
+            header('Location: ' . BASE_URL . 'index.php?s=login');
+        } else {
+            $usuario = $_SESSION['usuario'];
+            $msg = $_GET['msg'] ?? '';
 
-            $juego = $_SESSION['juegoActivo'];
-            $familia = $juego->getFamilia()->getNombre();
-            $inicio = $juego->getFechaInicio()->format('Y-m-d');
-            $fin = $juego->getFechaFin()->format('Y-m-d');
+            // Mensajes de estado
+            if ($msg === 'none') {
+                echo '<p class="text-dark">No hay un juego activo para tu familia actualmente.</p>';
+            } elseif ($msg === 'jugado') {
+                echo '<p class="text-dark">¡Ya has jugado a este juego!</p>';
+            } elseif (isset($_SESSION['juegoActivo'])) {
+                $juego = $_SESSION['juegoActivo'];
+                $familia = $juego->getFamilia()->getNombre();
+                $inicio = $juego->getFechaInicio()->format('d M Y');
+                $fin = $juego->getFechaFin()->format('d M Y');
+                $preguntas = count($juego->getPreguntas());
         ?>
-            <div class="card border-success mb-3">
-                <div class="card-header bg-success text-white">
-                    <i class="fa-solid fa-gamepad me-1"></i> Juego activo
+                <p class="text-dark"><strong>
+                    ¡Hay un juego disponible para ti!</strong>
+                </p>
+                <p class="text-dark">
+                    Responde correctamente 10 preguntas en el menor tiempo posible para obtener la mayor puntuación.
+                </p>
+                <div class="d-grid gap-2 mt-3">
+                    <a href="<?= BASE_URL ?>control/juego_controller.php" class="btn btn-primary btn-lg text-white">
+                        <i class="fas fa-play me-1"></i> Jugar ahora
+                    </a>
                 </div>
-                <div class="card-body">
-                    <div class="row g-2">
-                        <div class="col-12 col-md-4"><strong>Familia:</strong> <?= $familia ?></div>
-                        <div class="col-6 col-md-4"><strong>Inicio:</strong> <?= $inicio ?></div>
-                        <div class="col-6 col-md-4"><strong>Fin:</strong> <?= $fin ?></div>
-                        <div class="col-12"><strong>Preguntas cargadas:</strong> <?= count($juego->getPreguntas()) ?></div>
-                    </div>
-                    <div class="d-grid mt-3">
-                        <a href="<?= BASE_URL ?>control/juego_controller.php" class="btn btn-primary">
-                            <i class="fa-solid fa-play me-1"></i> Jugar ahora
-                        </a>
-                    </div>
-                </div>
-            </div>
         <?php
-        }?> 
-        <div class="card border-success mb-3">
-                <div class="card-header bg-secondary text-white">
-                    <i class="fa-solid fa-book me-1"></i> Sigue aprendiendo
-                </div>
-                <div class="card-body">
-                    <div class="row g-2">
-                        <div class="col-12">
-                            <p>Visita la sección de <strong>glosario</strong> para aprender más términos en euskera que te serán útiles en tu ciclo formativo.</p>
-                        </div>
-                    </div>
-                    <div class="d-grid mt-3">
-                    </div>
-                </div>
-            </div>
-        <?php
-    } ?>
+            } else {
+                echo '<p class="text-dark">No hay juegos activos esta semana.</p>';
+            }
+        }
+        ?>
+    </section>
+
+    <section class="mb-5">
+        <h2 class="h5 mb-2 text-primary-dark"><i class="fas fa-book me-2"></i>Sigue aprendiendo</h2>
+        <p>Visita la sección de <strong><a href="<?= BASE_URL ?>control/glosario_controller.php" class="text-dark">glosario</a></strong> para aprender más términos en euskera.</p>
+    </section>
+
+    <section class="mb-5">
+        <h2 class="h5 mb-2 text-primary-dark">
+            <i class="fas fa-crown me-2"></i> Ranking
+        </h2>
+        <p>
+            Consulta quiénes están liderando la puntuación de la semana y compite para estar en lo más alto.
+        </p>
+    </section>
 </div>

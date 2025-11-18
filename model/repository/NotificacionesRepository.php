@@ -1,24 +1,23 @@
 <?php
-require_once __DIR__ . "/../AccesoBD.class.php";
 require_once __DIR__ . "/../Notificaciones.class.php";
 
 class NotificacionesRepository
 {
-    private $db;
+    private $conexion;
 
-    public function __construct()
+    function __construct($conexion)
     {
-        $this->db = new AccesoBD();
+        $this->conexion = $conexion;
     }
 
     public function getAll()
     {
         $sql = "SELECT * FROM notificaciones ORDER BY id DESC";
-        $result = $this->db->lanzarSQL($sql);
+        $result = mysqli_query($this->conexion, $sql);
 
         $notificaciones = [];
         while ($row = mysqli_fetch_assoc($result)) {
-            $notificaciones[] = new Notificacion($row['id'], $row['texto']);
+            $notificaciones[] = new Notificacion($row['id'], $row['texto'], $row['fecha']);
         }
 
         return $notificaciones;
@@ -26,16 +25,16 @@ class NotificacionesRepository
 
     public function add($texto)
     {
-        $texto = mysqli_real_escape_string($this->db->conexion, $texto);
-        $sql = "INSERT INTO notificaciones (texto) VALUES ('$texto')";
-        $this->db->lanzarSQL($sql);
+        $texto = mysqli_real_escape_string($this->conexion, $texto);
+        $sql = "INSERT INTO notificaciones (texto, fecha) VALUES ('$texto', NOW())";
+        mysqli_query($this->conexion, $sql);
     }
 
     public function delete($id)
     {
         $id = (int)$id;
         $sql = "DELETE FROM notificaciones WHERE id = $id";
-        $this->db->lanzarSQL($sql);
+        mysqli_query($this->conexion, $sql);
     }
 }
 ?>

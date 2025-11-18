@@ -1,12 +1,12 @@
 <?php
-
-$repo = new GlosarioRepository();
+$bd = new AccesoBD();
+$repo = new GlosarioRepository($bd->conexion);
 $palabras = $repo->obtenerTodos();
 ?>
 
 <div class="container-fluid px-0">
     <div class="d-flex align-items-center justify-content-between mb-3">
-        <h1 class="h3 mb-0">Glosario Euskera / Castellano (Admin)</h1>
+        <h1 class="h3 mb-0">Glosario Euskera / Castellano</h1>
         <a href="../control/exportar_excel.php" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-file-excel me-1"></i> Exportar a Excel</a>
     </div>
     <div class="card mb-3">
@@ -54,7 +54,7 @@ $palabras = $repo->obtenerTodos();
                                 <td class="text-end">
                                     <form id="form-<?= $p->id ?>" method="post" action="<?= BASE_URL ?>admin/control/glosario_controller.php">
                                         <input type="hidden" name="id" value="<?= $p->id ?>">
-                                        <button type="submit" name="editar" class="btn btn-sm btn-outline-primary me-1"><i class="fa-solid fa-floppy-disk"></i></button>
+                                        <button type="submit" name="editar" class="btn btn-sm btn-outline-secondary me-1"><i class="fa-solid fa-floppy-disk"></i></button>
                                         <button type="submit" name="eliminar" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Eliminar esta palabra?')"><i class="fa-solid fa-trash"></i></button>
                                     </form>
                                 </td>

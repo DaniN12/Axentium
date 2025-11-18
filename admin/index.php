@@ -8,6 +8,8 @@ require_once BASE_PATH . "/model/repository/JuegoRepository.php";
 require_once BASE_PATH . "/model/repository/UsuarioRepository.php";
 require_once BASE_PATH . "/model/repository/PreguntaRepository.php";
 require_once BASE_PATH . "/model/repository/GlosarioRepository.php";
+require_once BASE_PATH . "/model/repository/PartidaRepository.php";
+
 session_start();
 
 if(!isset($_SESSION['admin'])){
@@ -25,6 +27,9 @@ if(!isset($_SESSION['usuario'])){
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Panel de Administración - LHizki</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css">
     <link rel="stylesheet" href="../css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
@@ -36,16 +41,18 @@ if(!isset($_SESSION['usuario'])){
 <body class="bg-light">
     <div class="d-flex">
         <!-- Sidebar -->
-        <aside class="bg-dark text-white p-3 vh-100 sticky-top admin-sidebar">
-            <h4 class="mb-4 text-center">LHizki Admin</h4>
+        <aside class="bg-dark-medium text-white p-3 vh-100 sticky-top admin-sidebar">
+            <h4 class="mb-4 text-center">
+                <img src="../assets/img/logo_txt@0.5x.png" alt="Logo" class="img-fluid">
+            </h4>
             <ul class="nav flex-column">
-                <li class="nav-item mb-2"><a href="?s=home" class="nav-link text-white"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
-                <li class="nav-item mb-2"><a href="?s=juegos" class="nav-link text-white"><i class="fa-solid fa-gamepad"></i> Juegos</a></li>
-                <li class="nav-item mb-2"><a href="?s=usuarios" class="nav-link text-white"><i class="fa-solid fa-users"></i> Usuarios</a></li>
-                <li class="nav-item mb-2"><a href="?s=glosario_admin" class="nav-link text-white"><i class="fa-solid fa-book"></i> Glosario</a></li>
-                <li class="nav-item mb-2"><a href="?s=preguntas" class="nav-link text-white"><i class="fa-solid fa-question"></i> Preguntas</a></li>
-                <li class="nav-item mb-2"><a href="?s=notificaciones_admin" class="nav-link text-white"><i class="fa-solid fas fa-bell"></i> Notificaciones</a></li>
-                <li class="nav-item mt-4"><a href="../index.php" class="nav-link text-secondary"><i class="fa-solid fa-arrow-left"></i> Volver</a></li>
+                <li class="nav-item mb-2"><a href="?s=home" class="nav-link text-white"><i class="fas fa-solid fa-gauge"></i> Dashboard</a></li>
+                <li class="nav-item mb-2"><a href="?s=juegos" class="nav-link text-white"><i class="fas fa-solid fa-gamepad"></i> Juegos</a></li>
+                <li class="nav-item mb-2"><a href="?s=preguntas" class="nav-link text-white"><i class="fas fa-solid fa-question"></i> Preguntas</a></li>
+                <li class="nav-item mb-2"><a href="?s=usuarios" class="nav-link text-white"><i class="fas fa-solid fa-users"></i> Usuarios</a></li>
+                <li class="nav-item mb-2"><a href="?s=glosario_admin" class="nav-link text-white"><i class="fas fa-solid fa-book"></i> Glosario</a></li>
+                <li class="nav-item mb-2"><a href="?s=notificaciones_admin" class="nav-link text-white"><i class="fas fa-solid fas fa-bell"></i> Notificaciones</a></li>
+                <li class="nav-item mt-4"><a href="<?= BASE_URL ?>admin/index.php" class="nav-link text-secondary"><i class="fas fa-solid fa-arrow-left"></i> Volver</a></li>
                 
             </ul>
         </aside>
@@ -77,6 +84,7 @@ if(!isset($_SESSION['usuario'])){
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
     <script src="../assets/demo/chart-area-demo.js"></script>
     <script src="../assets/demo/chart-bar-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script src="../js/admin_script.js"></script>
 

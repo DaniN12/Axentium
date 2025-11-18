@@ -1,7 +1,8 @@
 <?php
-$preguntaRepository = new PreguntaRepository();
-$familiaRepository = new FamiliaRepository();
-$categoriaRepository = new CategoriaRepository();
+$bd = new AccesoBD();
+$preguntaRepository = new PreguntaRepository($bd->conexion);
+$familiaRepository = new FamiliaRepository($bd->conexion);
+$categoriaRepository = new CategoriaRepository($bd->conexion);
 $familias = $familiaRepository->getFamilias();
 $categorias = $categoriaRepository->getCategorias();
 
@@ -19,7 +20,7 @@ $preguntasGenerales = $preguntaRepository->getPreguntasPorFamilia(null);
 
     <div id="formulariosContainer" class="mt-4" style="display: none;">
         <div class="d-flex justify-content-end mb-3">
-            <button id="cerrarFormularios" class="btn btn-danger btn-sm fw-semibold">
+            <button id="cerrarFormularios" class="btn btn-secondary btn-sm fw-semibold">
                 <i class="fa-solid fa-xmark me-1"></i> Cerrar
             </button>
         </div>
@@ -81,7 +82,7 @@ $preguntasGenerales = $preguntaRepository->getPreguntasPorFamilia(null);
 
                             <div class="col-md-6 d-grid">
                                 <input type="hidden" name="action" value="crearPreguntaGeneral">
-                                <button type="submit" class="btn btn-success fw-semibold">
+                                <button type="submit" class="btn btn-primary fw-semibold">
                                     <i class="fa-solid fa-plus me-1"></i> Crear
                                 </button>
                             </div>
@@ -92,8 +93,8 @@ $preguntasGenerales = $preguntaRepository->getPreguntasPorFamilia(null);
 
             <div class="col-md-6">
                 <div class="card shadow-sm h-100">
-                    <div class="card-header bg-info text-white">
-                        <i class="fa-solid fa-people-group me-2"></i> Crear pregunta por familia
+                    <div class="card-header bg-primary text-white">
+                        <i class="fa-solid fa-book me-2"></i> Crear pregunta por familia
                     </div>
 
                     <div class="card-body">
@@ -146,7 +147,7 @@ $preguntasGenerales = $preguntaRepository->getPreguntasPorFamilia(null);
 
                             <div class="col-md-6 d-grid">
                                 <input type="hidden" name="action" value="crearPreguntaGeneral">
-                                <button type="submit" class="btn btn-success fw-semibold">
+                                <button type="submit" class="btn btn-primary fw-semibold">
                                     <i class="fa-solid fa-plus me-1"></i> Crear
                                 </button>
                             </div>
@@ -176,7 +177,7 @@ $preguntasGenerales = $preguntaRepository->getPreguntasPorFamilia(null);
                             <th>Opción 3</th>
                             <th>Correcta</th>
                             <th>Categoria</th>
-                            <th>Usadas</th>
+                            <th class="text-center">Usadas</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -190,7 +191,12 @@ $preguntasGenerales = $preguntaRepository->getPreguntasPorFamilia(null);
                                     <td><?= htmlspecialchars($pregunta->getOpcion3()) ?></td>
                                     <td><?= htmlspecialchars($pregunta->getCorrecta()) ?></td>
                                     <td><?= $pregunta->getCategoria() ? htmlspecialchars($pregunta->getCategoria()->getNombre()) : '-' ?></td>
-                                    <td class="text-center"><?= $pregunta->getUsada() ? '✅' : '⬜' ?></td>
+                                    <td class="text-center">
+                                        <?= $pregunta->getUsada()
+                                            ? '<i class="fa-solid fa-square-check"></i>'
+                                            : '<i class="fa-regular fa-square"></i>'
+                                        ?>
+                                    </td>
                                 </tr>
                             <?php } ?>
                         <?php } else { ?>
@@ -229,7 +235,7 @@ $preguntasGenerales = $preguntaRepository->getPreguntasPorFamilia(null);
                                 <th>Opción 2</th>
                                 <th>Opción 3</th>
                                 <th>Correcta</th>
-                                <th>Usada</th>
+                                <th class="text-center">Usada</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -242,7 +248,12 @@ $preguntasGenerales = $preguntaRepository->getPreguntasPorFamilia(null);
                                         <td><?= htmlspecialchars($pregunta->getOpcion2()) ?></td>
                                         <td><?= htmlspecialchars($pregunta->getOpcion3()) ?></td>
                                         <td><?= htmlspecialchars($pregunta->getCorrecta()) ?></td>
-                                        <td class="text-center"><?= $pregunta->getUsada() ? '✅' : '⬜' ?></td>
+                                        <td class="text-center">
+                                        <?= $pregunta->getUsada()
+                                            ? '<i class="fa-solid fa-square-check"></i>'
+                                            : '<i class="fa-regular fa-square"></i>'
+                                        ?>
+                                    </td>
                                     </tr>
                                 <?php } ?>
                             <?php } else { ?>

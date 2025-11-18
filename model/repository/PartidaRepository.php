@@ -9,30 +9,138 @@ require_once(BASE_PATH . "/model/repository/JuegoRepository.php");
 
 class PartidaRepository
 {
+    private $conexion;
+
+    function __construct($conexion)
+    {
+        $this->conexion = $conexion;
+    }
     function crearPartida($juegoId, $usuarioId, $puntuacion, $fecha)
     {
         $fecha = $fecha->format('Y-m-d H:i:s');
-        $bd = new AccesoBD();
         $sql = "INSERT INTO partidas (juegoId, usuarioId, puntuacion, fecha) VALUES ('$juegoId', '$usuarioId', '$puntuacion', '$fecha');";
-        mysqli_query($bd->conexion, $sql);
+        mysqli_query($this->conexion, $sql);
     }
     function getAllPuntuaciones()
     {
-        $bd = new AccesoBD();
         $sql = "SELECT 
             u.id AS usuarioId, 
             u.username AS usuario, 
-            MAX(p.puntuacion) AS puntuacion
+             c.nombre AS ciclo,
+            SUM(p.puntuacion) AS puntuacion
         FROM partidas p
         INNER JOIN usuarios u ON p.usuarioId = u.id
+        INNER JOIN ciclos c ON u.cicloId = c.id
         GROUP BY u.id, u.username
         ORDER BY puntuacion DESC;";
-        $resultado = mysqli_query($bd->conexion, $sql);
+        $resultado = mysqli_query($this->conexion, $sql);
 
         $ranking = [];
         while ($fila = mysqli_fetch_assoc($resultado)) {
             $ranking[] = $fila;
         }
         return $ranking;
+    }
+    function getCountPartidas()
+    {
+        $sql = "SELECT COUNT(*) as total FROM partidas;";
+        $result = mysqli_query($this->conexion, $sql);
+        $fila = mysqli_fetch_assoc($result);
+        return $fila['total'];
+    }
+    function getCountPartidasEstaSemana()
+    {
+        $sql = "SELECT COUNT(*) AS total 
+            FROM partidas 
+            WHERE YEARWEEK(fecha, 1) = YEARWEEK(NOW(), 1);";
+
+        $result = mysqli_query($this->conexion, $sql);
+        $fila = mysqli_fetch_assoc($result);
+        return $fila['total'];
+    }
+
+    function getRankingPorCiclos()
+    {
+        $sql = "SELECT 
+                c.id AS cicloId,
+                c.nombre AS ciclo,
+                COALESCE(SUM(p.puntuacion), 0) AS puntosTotales
+            FROM ciclos c
+            LEFT JOIN usuarios u ON u.cicloId = c.id
+            LEFT JOIN partidas p ON p.usuarioId = u.id
+            GROUP BY c.id, c.nombre
+            ORDER BY puntosTotales DESC;";
+
+
+        $resultado = mysqli_query($this->conexion, $sql);
+
+        $ranking = [];
+        while ($fila = mysqli_fetch_assoc($resultado)) {
+            $ranking[] = $fila;
+        }
+
+        return $ranking;
+    }
+    function getPartidasPorSemana()
+    {
+        $sql = "SELECT YEARWEEK(fecha, 1) AS semana, COUNT(*) AS total
+            FROM partidas
+            GROUP BY YEARWEEK(fecha, 1)
+            ORDER BY semana DESC
+            LIMIT 7";
+
+        $result = mysqli_query($this->conexion, $sql);
+
+        $datos = [];
+        while ($fila = mysqli_fetch_assoc($result)) {
+            $datos[] = $fila;
+        }
+
+        return array_reverse($datos);
+    }
+
+    function getTotalUsuariosPorFamilia()
+    {
+        $sql = "SELECT f.id AS familiaId, f.nombre AS familia, COUNT(u.id) AS totalUsuarios
+        FROM familias f
+        LEFT JOIN ciclos c ON c.familiaId = f.id
+        LEFT JOIN usuarios u ON u.cicloId = c.id
+        GROUP BY f.id, f.nombre
+        ORDER BY f.id;";
+
+        $result = mysqli_query($this->conexion, $sql);
+
+        $data = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $data[$row['familiaId']] = [
+                'familia' => $row['familia'],
+                'totalUsuarios' => (int)$row['totalUsuarios']
+            ];
+        }
+        return $data;
+    }
+
+
+    function getUsuariosActivosPorFamiliaPorSemana()
+    {
+        $sql = "SELECT 
+                f.id AS familiaId,
+                f.nombre AS familia,
+                YEARWEEK(p.fecha, 1) AS semana,
+                COUNT(DISTINCT u.id) AS usuariosActivos
+            FROM familias f
+            LEFT JOIN ciclos c ON c.familiaId = f.id
+            LEFT JOIN usuarios u ON u.cicloId = c.id
+            LEFT JOIN partidas p ON p.usuarioId = u.id
+            GROUP BY f.id, semana
+            ORDER BY semana, familia;";
+
+        $result = mysqli_query($this->conexion, $sql);
+
+        $data = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $data[] = $row;
+        }
+        return $data;
     }
 }

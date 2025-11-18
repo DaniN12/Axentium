@@ -1,18 +1,22 @@
 <?php
-require_once(__DIR__ . "/../AccesoBD.class.php");
 require_once(__DIR__ . "/../Familia.class.php");
 require_once(__DIR__ . "/../Ciclo.class.php");
 
 class CategoriaRepository
 {
+    private $conexion;
+
+    function __construct($conexion)
+    {
+        $this->conexion = $conexion;
+    }
 
     function getCategorias()
     {
-        $bd = new AccesoBD();
         $sql = "SELECT id, nombre
             FROM categorias
             ;";
-        $result = mysqli_query($bd->conexion, $sql);
+        $result = mysqli_query($this->conexion, $sql);
 
         $categorias = [];
 
